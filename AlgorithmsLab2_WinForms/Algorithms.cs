@@ -9,43 +9,20 @@ namespace AlgorithmsLab2_WinForms
     public class Vertex
     {
         public int Id { get; private set; }
-        public int Degree { get; private set; }
+        public int Degree => Neighbours == null ? 0 : Neighbours.Count;
         public string Name { get; set; }
-        public int Color { get; set; }
         public List<Vertex> Neighbours { get; set; }
-        public List<Edge> Edges { get; set; }
-        public Vertex(int id, int degree, string name)
+        public Vertex(int id, string name)
         {
             Id = id;
-
-            if (degree < 0)
-                degree = 0;
-
-            Degree = degree;
             Name = name;
-            Color = -1;
             Neighbours = new List<Vertex>();
         }
-        public Vertex(int id, int degree)
+        public Vertex(int id)
         {
             Id = id;
-
-            if (degree < 0)
-                degree = 0;
-
-            Degree = degree;
             Name = id.ToString();
-            Color = -1;
             Neighbours = new List<Vertex>();
-        }
-        public bool HasNeighboursWithColour(int color)
-        {
-            foreach (var neighbor in Neighbours)
-            {
-                if (neighbor.Color == color)
-                    return true;
-            }
-            return false;
         }
         public bool HasNeighbourWithId(int id)
         {
@@ -58,26 +35,22 @@ namespace AlgorithmsLab2_WinForms
     }
     public class Edge
     {
-        public int Id => ConnectedVertecies == null ? -1 : ConnectedVertecies[0].Id;
         public string Name => ConnectedVertecies == null ? "EMPTY" : $"{ConnectedVertecies[0].Name} - {ConnectedVertecies[1].Name}";
         public Vertex[] ConnectedVertecies { get; private set; }
         public int Color { get; set;}
-        public int NeighbourEdgesCount => ConnectedVertecies[0].Neighbours.Count - 1;
+        public List<Edge> Neighbours { get; set; }
         public Edge(Vertex fromVertex, Vertex toVertex)
         {
             ConnectedVertecies = new Vertex[2];
             ConnectedVertecies[0] = fromVertex;
             ConnectedVertecies[1] = toVertex;
             Color = -1;
+            Neighbours = new List<Edge>();
         }
         public bool HasNeighbourEdgesWithColour(int colour)
         {
-            for (int i = 0; i < ConnectedVertecies[0].Neighbours.Count; i++)
-                if (ConnectedVertecies[0].Neighbours[i].Color == colour)
-                    return true;
-
-            for (int i = 0; i < ConnectedVertecies[1].Neighbours.Count; i++)
-                if (ConnectedVertecies[1].Neighbours[i].Color == colour)
+            for (int i = 0; i < Neighbours.Count; i++)
+                if (Neighbours[i].Color == colour) 
                     return true;
             
             return false;
@@ -88,8 +61,8 @@ namespace AlgorithmsLab2_WinForms
         public static Edge[] Paint(Edge[] edges)
         {
             Edge[] paintedEdges = (Edge[])edges.Clone();
-            var sortedEdges = from edge in paintedEdges orderby edge.NeighbourEdgesCount descending select edge;
-
+            var sortedEdges = from edge in paintedEdges orderby edge.Neighbours.Count descending select edge;
+            
             for (int i = 0; i < paintedEdges.Length; i++)
             {
                 if (i == 0)
@@ -97,53 +70,32 @@ namespace AlgorithmsLab2_WinForms
 
                 for (int j = 0; j < paintedEdges.Length; j++)
                     if (sortedEdges.ElementAt(j).Color == -1 && !sortedEdges.ElementAt(j).HasNeighbourEdgesWithColour(i))
-                        sortedEdges.ElementAt(j).Color = 1;
+                        sortedEdges.ElementAt(j).Color = i;
             }
 
             return paintedEdges;
         }
-
-
-        //vertex mode
-
-        //public static Vertex[] Paint(Vertex[] graph)
-        //{
-        //    Vertex[] paintedGraph = (Vertex[])graph.Clone();
-
-        //    var sortedVertevies = from vertex in paintedGraph orderby vertex.Degree descending select vertex;
-        //    for (int i = 0; i < paintedGraph.Length; i++)
-        //    {
-        //        if (i == 0)
-        //            sortedVertevies.ElementAt(0).Color = 0;
-
-        //        for (int j = i; j < sortedVertevies.Count(); j++)
-        //            if (!sortedVertevies.ElementAt(j).HasNeighboursWithColour(i) && sortedVertevies.ElementAt(j).Color == -1)
-        //                sortedVertevies.ElementAt(j).Color = i;
-        //    }
-        //    return paintedGraph;
-        //}
-
     }
     public static class InTurnAlgorithm
     {
-        public static Vertex[] Paint(Vertex[] graph)
+        public static Edge[] Paint(Edge[] edges) 
         {
-            Vertex[] paintedGraph = (Vertex[])graph.Clone();
-            foreach (var vertex in paintedGraph)
+            Edge[] paintedEdges = (Edge[])edges.Clone();
+            foreach (var edge in paintedEdges)
             {
                 int i = 0;
-                while (vertex.Color == -1)
+                while (edge.Color == -1)
                 {
-                    if (!vertex.HasNeighboursWithColour(i))
+                    if (!edge.HasNeighbourEdgesWithColour(i))
                     {
-                        vertex.Color = i;
+                        edge.Color= i;
                         break;
                     }
                     i++;
                 }
             }
 
-            return paintedGraph;
+            return paintedEdges;
         }
     }
 }

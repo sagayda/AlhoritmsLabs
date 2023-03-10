@@ -119,20 +119,20 @@ namespace AlgorithmsLab2_WinForms
                     if (adjacencyMatrix[i, j] > 0)
                         vertexDegree++;
                 }
-                verticesList.Add(new Vertex(i, vertexDegree));
+                verticesList.Add(new Vertex(i));
             }
             Vertex[] graph = verticesList.ToArray();
 
-
-            //set nighbours
+            //set nighbours for vertecies
             for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
                 for (int j = 0; j < adjacencyMatrix.GetLength(1); j++)
                     if (adjacencyMatrix[i, j] == 1)
                         graph[i].Neighbours.Add(graph[j]);
 
-            //set names
+            //set vertecies names
             if (textBox2.Text != null && textBox2.Text != "")
-                TrySetVerticesNames(graph, textBox2.Text);
+                if (!TrySetVerticesNames(graph, textBox2.Text))
+                    return;
 
             //create edges
             List<Edge> edgesList = new List<Edge>();
@@ -153,21 +153,25 @@ namespace AlgorithmsLab2_WinForms
                         edgesList.Add(new Edge(graph[i], graph[j]));
                 }
             }
+
+            //set neighbours for edges
+            for (int i = 0; i < edgesList.Count; i++)
+            {
+                List<Edge> vertex1Neighbours = edgesList.FindAll(edge => edge.ConnectedVertecies[0].Id == edgesList[i].ConnectedVertecies[0].Id || edge.ConnectedVertecies[1].Id == edgesList[i].ConnectedVertecies[0].Id);
+                List<Edge> vertex2Neighbours = edgesList.FindAll(edge => edge.ConnectedVertecies[0].Id == edgesList[i].ConnectedVertecies[1].Id || edge.ConnectedVertecies[1].Id == edgesList[i].ConnectedVertecies[1].Id);
+                edgesList[i].Neighbours.AddRange(vertex1Neighbours);
+                edgesList[i].Neighbours.AddRange(vertex2Neighbours);
+            }
             Edge[] edges = edgesList.ToArray();
 
 
-            string deb = "";
+            var WelshPowellForm = new FormGraph("Welsh Powell algorithm");
+            WelshPowellForm.Show();
+            WelshPowellForm.CircleDraw(graph, WelshPowellAlgorithm.Paint(edges));
 
-            foreach (var item in WelshPowellAlgorithm.Paint(edges))
-            {
-                deb += $"\nname - {item.Name}, color - {item.Color}";
-            }
-            MessageBox.Show(deb);
-
-
-            var formGraph = new FormGraph();
-            formGraph.Show();
-            formGraph.CircleDraw(graph, WelshPowellAlgorithm.Paint(edges));
+            var InTurnForm = new FormGraph("In turn algorithm");
+            InTurnForm.Show();
+            InTurnForm.CircleDraw(graph, InTurnAlgorithm.Paint(edges));
         }
     }
 }
