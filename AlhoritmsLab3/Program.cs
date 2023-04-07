@@ -1,20 +1,53 @@
-﻿namespace AlhoritmsLab3
+﻿using System;
+
+namespace AlhoritmsLab3
 {
     public class Vertex
     {
+        public int Id { get; private set; }
+        public int Degree => Neighbours == null ? 0 : Neighbours.Count;
         public string Name { get; set; }
         public int TarIndex { get; set; }
         public int LowLink { get; set; }
         public bool IsOnStack { get; set; }
+        public bool Visited { get; set; }
         public List<Vertex> Neighbours { get; set; }
-        public Vertex(string name)
+        public Vertex(int id, string name)
         {
+            Id = id;
             Name = name;
             Neighbours = new List<Vertex>();
         }
-
+        public Vertex(int id)
+        {
+            Id = id;
+            Name = id.ToString();
+            Neighbours = new List<Vertex>();
+        }
     }
+    public class Edge
+    {
+        public string Name => ConnectedVertecies == null ? "EMPTY" : $"{ConnectedVertecies[0].Name} - {ConnectedVertecies[1].Name}";
+        public Vertex[] ConnectedVertecies { get; private set; }
+        public int Color { get; set; }
+        public List<Edge> Neighbours { get; set; }
+        public Edge(Vertex fromVertex, Vertex toVertex)
+        {
+            ConnectedVertecies = new Vertex[2];
+            ConnectedVertecies[0] = fromVertex;
+            ConnectedVertecies[1] = toVertex;
+            Color = -1;
+            Neighbours = new List<Edge>();
+        }
+        public bool HasNeighbourEdgesWithColour(int colour)
+        {
+            for (int i = 0; i < Neighbours.Count; i++)
+                if (Neighbours[i].Color == colour)
+                    return true;
 
+            return false;
+        }
+    }
     public class Tarjan
     {
         private Stack<Vertex> stack;
@@ -39,6 +72,7 @@
                 }
             }
 
+            sccList = (from scc in sccList orderby scc.Count descending select scc).ToList<List<Vertex>>();
             return sccList;
         }
 
@@ -77,6 +111,69 @@
                 sccList.Add(scc);
                 sccCount++;
             }
+        }
+    }
+    public class SearchBehindPaths
+    {
+        private Stack<Vertex> stack1, stack2;
+
+        public List<List<Vertex>> FindSCCs(Vertex[] graph)
+        {
+
+            List<List<Vertex>> sccList = new List<List<Vertex>>();
+
+            stack1 = new Stack<Vertex>();
+            for (int i = 0; i < graph.Length; ++i)
+            {
+                if (!graph[i].Visited)
+                    FillStacks(graph[i]);
+            }
+
+            foreach (var item in graph)
+                item.Visited = false;
+
+            stack2 = new Stack<Vertex>();
+
+            while (stack1.Count > 0)
+            {
+                var v = stack1.Pop();
+
+                if (!v.Visited)
+                {
+                    DFS(v);
+
+                    List<Vertex> scc = new List<Vertex>();
+                    while (stack2.Count > 0)
+                    {
+                        var w = stack2.Pop();
+                        scc.Add(w);
+                    }
+                    sccList.Add(scc);
+                }
+            }
+
+            sccList = (from scc in sccList orderby scc.Count descending select scc).ToList<List<Vertex>>();
+
+            return sccList;
+        }
+        private void FillStacks(Vertex v)
+        {
+            v.Visited = true;
+
+            foreach (Vertex w in v.Neighbours)
+                if (!w.Visited)
+                    FillStacks(w);
+
+            stack1.Push(v);
+        }
+        private void DFS(Vertex v)
+        {
+            v.Visited = true;
+            stack2.Push(v);
+
+            foreach (var w in v.Neighbours)
+                if (!w.Visited)
+                    DFS(w);
         }
     }
 
@@ -203,7 +300,7 @@
             //create graph
             List<Vertex> temp = new List<Vertex>();
             for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
-                temp.Add(new Vertex(i.ToString()));
+                temp.Add(new Vertex(i));
 
             Vertex[] graph = temp.ToArray();
 
@@ -231,7 +328,19 @@
             Tarjan tarjan = new();
             List<List<Vertex>> sccList = tarjan.SCC(graph);
 
+            Console.WriteLine("tarjan");
             foreach (var scc in sccList)
+            {
+                Console.WriteLine($"--SCC:");
+                foreach (var vertex in scc)
+                    Console.WriteLine($"\tVertex name: {vertex.Name}");
+            }
+
+            SearchBehindPaths sbp = new();
+            List<List<Vertex>> sccList2 = sbp.FindSCCs(graph);
+
+            Console.WriteLine("SBP");
+            foreach (var scc in sccList2)
             {
                 Console.WriteLine($"--SCC:");
                 foreach (var vertex in scc)

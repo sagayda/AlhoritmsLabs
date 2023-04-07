@@ -1,4 +1,4 @@
-﻿namespace AlgorithmsLab2_WinForms
+﻿namespace AlgorithmsLab3_WinForms
 {
     partial class Form1
     {
@@ -41,7 +41,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 55);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Paint!";
+            this.button1.Text = "Start!";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -51,7 +51,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(451, 27);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "c:matrix\\TA_Lab2\\adj.txt";
+            this.textBox1.Text = "c:matrix\\TA_Lab3\\adj.txt";
             // 
             // textBox2
             // 
@@ -59,7 +59,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(451, 27);
             this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "c:matrix\\TA_Lab2\\name.txt";
+            this.textBox2.Text = "c:matrix\\TA_Lab3\\name.txt";
             // 
             // label1
             // 
