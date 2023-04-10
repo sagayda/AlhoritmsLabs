@@ -1,9 +1,11 @@
-﻿namespace AlgorithmsLab4_WinForms
+﻿using System.ComponentModel;
+
+namespace AlgorithmsLab4_WinForms
 {
     [Serializable]
     public class Students
     {
-        public List<Student> students { get; set; } = new List<Student>();
+        public BindingList<Student> students { get; set; } = new BindingList<Student>();
 
         public Students()
         {

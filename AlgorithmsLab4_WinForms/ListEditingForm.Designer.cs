@@ -35,8 +35,8 @@
             this.groupComboBox = new System.Windows.Forms.ComboBox();
             this.studentsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.serializeButton = new System.Windows.Forms.Button();
-            this.studentsListView = new System.Windows.Forms.ListView();
             this.studentRemoveButton = new System.Windows.Forms.Button();
+            this.studentsListBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,15 +96,6 @@
             this.serializeButton.UseVisualStyleBackColor = true;
             this.serializeButton.Click += new System.EventHandler(this.serializeButton_Click);
             // 
-            // studentsListView
-            // 
-            this.studentsListView.Location = new System.Drawing.Point(12, 13);
-            this.studentsListView.Name = "studentsListView";
-            this.studentsListView.Size = new System.Drawing.Size(392, 425);
-            this.studentsListView.TabIndex = 10;
-            this.studentsListView.UseCompatibleStateImageBehavior = false;
-            this.studentsListView.View = System.Windows.Forms.View.List;
-            // 
             // studentRemoveButton
             // 
             this.studentRemoveButton.Location = new System.Drawing.Point(600, 311);
@@ -115,13 +106,22 @@
             this.studentRemoveButton.UseVisualStyleBackColor = true;
             this.studentRemoveButton.Click += new System.EventHandler(this.studentRemoveButton_Click);
             // 
+            // studentsListBox
+            // 
+            this.studentsListBox.FormattingEnabled = true;
+            this.studentsListBox.ItemHeight = 20;
+            this.studentsListBox.Location = new System.Drawing.Point(12, 12);
+            this.studentsListBox.Name = "studentsListBox";
+            this.studentsListBox.Size = new System.Drawing.Size(392, 424);
+            this.studentsListBox.TabIndex = 12;
+            // 
             // ListEditingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.studentsListBox);
             this.Controls.Add(this.studentRemoveButton);
-            this.Controls.Add(this.studentsListView);
             this.Controls.Add(this.serializeButton);
             this.Controls.Add(this.groupComboBox);
             this.Controls.Add(this.studentAddButton);
@@ -144,7 +144,7 @@
         private ComboBox groupComboBox;
         private BindingSource studentsBindingSource;
         private Button serializeButton;
-        private ListView studentsListView;
         private Button studentRemoveButton;
+        private ListBox studentsListBox;
     }
 }

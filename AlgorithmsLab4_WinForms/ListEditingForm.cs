@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,19 +16,20 @@ namespace AlgorithmsLab4_WinForms
     public partial class ListEditingForm : Form
     {
         string[] groups = { "ІС-21", "ІС-22", "ІС-23" };
+        private Students students = Serializer.DeserializeStudentsXML();
+        private Form mainForm;
 
-        public ListEditingForm()
+        public ListEditingForm(object sender)
         {
             InitializeComponent();
+            mainForm = (Form)sender;
+            FormClosing += TransferData;
         }
 
         private void studentAddButton_Click(object sender, EventArgs e)
         {
             Student student = new Student(nameTextBox.Text, sexComboBox.SelectedIndex, groupComboBox.Text);
-            ListViewItem lvi = new ListViewItem(student.Description);
-            lvi.Tag = student;
-
-            studentsListView.Items.Add(lvi);
+            students.students.Add(student);
             CleanInput();
         }
 
@@ -35,65 +37,32 @@ namespace AlgorithmsLab4_WinForms
         {
             nameTextBox.Text = string.Empty;
         }
-
+        private void TransferData(Object sender, FormClosingEventArgs e)
+        {
+            ((FormMain)mainForm).UpdateData();
+        }
         private void ListEditingForm_Load(object sender, EventArgs e)
         {
-            var students = DeserializeXML();
-
-            foreach (var student in students.students)
-            {
-                ListViewItem lvi = new ListViewItem(student.Description);
-                lvi.Tag = student;
-
-                studentsListView.Items.Add(lvi);
-            }
+            studentsListBox.DataSource = students.students;
+            studentsListBox.DisplayMember = "Description";
         }
 
         private void serializeButton_Click(object sender, EventArgs e)
         {
-            Students students = new Students();
-
-            foreach (ListViewItem item in studentsListView.Items)
-            {
-                if(item.Tag != null)
-                {
-                    students.students.Add((Student)item.Tag);
-                }
-            }
-
-            SerializeXML(students);
-        }
-
-        private void SerializeXML(Students students)
-        {
-            XmlSerializer xml = new XmlSerializer(typeof(Students));
-
-            using (FileStream fs = new FileStream("Students.xml", FileMode.Create))
-            {
-                xml.Serialize(fs, students);
-            }
-        }
-
-        private Students DeserializeXML()
-        {
-            XmlSerializer xml = new XmlSerializer(typeof(Students));
-
-            using (FileStream fs = new FileStream("Students.xml", FileMode.OpenOrCreate))
-            {
-                Students students = xml.Deserialize(fs) as Students;
-
-                return students;
-            }
+            Serializer.SerializeStudentsXML(students);
         }
 
         private void studentRemoveButton_Click(object sender, EventArgs e)
         {
-            if (studentsListView.SelectedItems.Count <= 0)
+            if (studentsListBox.SelectedItems.Count <= 0)
                 return;
 
-            foreach (ListViewItem selectedItem in studentsListView.SelectedItems)
+            Student[] selected = new Student[studentsListBox.SelectedItems.Count];
+            studentsListBox.SelectedItems.CopyTo(selected, 0);
+
+            foreach (var selectedItem in selected)
             {
-                studentsListView.Items.Remove(selectedItem);
+                students.students.Remove(selectedItem);
             }
         }
     }

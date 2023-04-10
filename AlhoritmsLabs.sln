@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmsLab2_WinForms", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmsLab3_WinForms", "AlgorithmsLab3_WinForms\AlgorithmsLab3_WinForms.csproj", "{E03C8045-F7CB-4012-9EFF-257AFC04F235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmsLab4_WinForms", "AlgorithmsLab4_WinForms\AlgorithmsLab4_WinForms.csproj", "{7A849AEA-4BDA-4D86-9FED-172B9A21B4EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmsLab4_WinForms", "AlgorithmsLab4_WinForms\AlgorithmsLab4_WinForms.csproj", "{7A849AEA-4BDA-4D86-9FED-172B9A21B4EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmsLab4", "AlgorithmsLab4\AlgorithmsLab4.csproj", "{C497BCB8-E925-4E04-894D-7BEDB20B0B4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7A849AEA-4BDA-4D86-9FED-172B9A21B4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A849AEA-4BDA-4D86-9FED-172B9A21B4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A849AEA-4BDA-4D86-9FED-172B9A21B4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C497BCB8-E925-4E04-894D-7BEDB20B0B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C497BCB8-E925-4E04-894D-7BEDB20B0B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C497BCB8-E925-4E04-894D-7BEDB20B0B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C497BCB8-E925-4E04-894D-7BEDB20B0B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
