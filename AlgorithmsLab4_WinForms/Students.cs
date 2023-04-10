@@ -20,6 +20,7 @@ namespace AlgorithmsLab4_WinForms
         public int Sex { get; set; }
         public string Group { get; set; }
         public string Description { get => FullName + ", " + Group; }
+        public byte Grade { get; set; }
 
         public Student() { }
 

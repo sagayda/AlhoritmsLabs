@@ -6,6 +6,7 @@ namespace AlgorithmsLab4_WinForms
     {
         public QueueByIndexElem<T> FirstElem { get; private set; }
         public QueueByIndexElem<T> LastElem { get; private set; }
+        public bool IsEmpty => FirstElem == null ? true : false;
         public QueueByIndex()
         {
             FirstElem = null;
@@ -41,6 +42,14 @@ namespace AlgorithmsLab4_WinForms
             {
                 Element = elem;
             }
+        }
+
+        public T GetFirstInQueue()
+        {
+            if(FirstElem != null)
+                return FirstElem.Element;
+
+            return default;
         }
     }
 }
