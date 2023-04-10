@@ -18,12 +18,21 @@ namespace AlgorithmsLab4_WinForms
         {
             XmlSerializer xml = new XmlSerializer(typeof(Students));
 
-            using (FileStream fs = new FileStream("Students.xml", FileMode.OpenOrCreate))
+            try
             {
-                Students students = xml.Deserialize(fs) as Students;
+                using (FileStream fs = new FileStream("Students.xml", FileMode.Open))
+                {
+                    Students students = xml.Deserialize(fs) as Students;
 
-                return students;
+                    return students;
+                }
+
             }
+            catch (Exception)
+            {
+                return new Students();
+            }
+
         }
     }
 }

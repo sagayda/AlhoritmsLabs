@@ -61,11 +61,11 @@
             // 
             // studentAddButton
             // 
-            this.studentAddButton.Location = new System.Drawing.Point(410, 311);
+            this.studentAddButton.Location = new System.Drawing.Point(410, 323);
             this.studentAddButton.Name = "studentAddButton";
             this.studentAddButton.Size = new System.Drawing.Size(184, 29);
             this.studentAddButton.TabIndex = 5;
-            this.studentAddButton.Text = "Add";
+            this.studentAddButton.Text = "Додати";
             this.studentAddButton.UseVisualStyleBackColor = true;
             this.studentAddButton.Click += new System.EventHandler(this.studentAddButton_Click);
             // 
@@ -88,21 +88,21 @@
             // 
             // serializeButton
             // 
-            this.serializeButton.Location = new System.Drawing.Point(410, 356);
+            this.serializeButton.Location = new System.Drawing.Point(410, 367);
             this.serializeButton.Name = "serializeButton";
             this.serializeButton.Size = new System.Drawing.Size(378, 29);
             this.serializeButton.TabIndex = 9;
-            this.serializeButton.Text = "Save";
+            this.serializeButton.Text = "Зберегти";
             this.serializeButton.UseVisualStyleBackColor = true;
             this.serializeButton.Click += new System.EventHandler(this.serializeButton_Click);
             // 
             // studentRemoveButton
             // 
-            this.studentRemoveButton.Location = new System.Drawing.Point(600, 311);
+            this.studentRemoveButton.Location = new System.Drawing.Point(600, 323);
             this.studentRemoveButton.Name = "studentRemoveButton";
             this.studentRemoveButton.Size = new System.Drawing.Size(188, 29);
             this.studentRemoveButton.TabIndex = 11;
-            this.studentRemoveButton.Text = "Remove";
+            this.studentRemoveButton.Text = "Видалити";
             this.studentRemoveButton.UseVisualStyleBackColor = true;
             this.studentRemoveButton.Click += new System.EventHandler(this.studentRemoveButton_Click);
             // 
@@ -112,14 +112,14 @@
             this.studentsListBox.ItemHeight = 20;
             this.studentsListBox.Location = new System.Drawing.Point(12, 12);
             this.studentsListBox.Name = "studentsListBox";
-            this.studentsListBox.Size = new System.Drawing.Size(392, 424);
+            this.studentsListBox.Size = new System.Drawing.Size(392, 384);
             this.studentsListBox.TabIndex = 12;
             // 
             // ListEditingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 415);
             this.Controls.Add(this.studentsListBox);
             this.Controls.Add(this.studentRemoveButton);
             this.Controls.Add(this.serializeButton);
@@ -129,7 +129,7 @@
             this.Controls.Add(this.sexComboBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ListEditingForm";
-            this.Text = "ListEditingForm";
+            this.Text = "Редагування списку";
             this.Load += new System.EventHandler(this.ListEditingForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).EndInit();
             this.ResumeLayout(false);
