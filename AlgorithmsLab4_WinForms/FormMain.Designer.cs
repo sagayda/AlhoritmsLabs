@@ -43,7 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.restoreQueueButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.studentBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -167,27 +167,27 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(442, 20);
             this.label3.TabIndex = 11;
-            this.label3.Text = "УВАГА! При редагуванні списку актуальна черга буде зкинута!";
+            this.label3.Text = "УВАГА! При редагуванні списку актуальна черга буде скинута!";
             // 
-            // button1
+            // restoreQueueButton
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(293, 466);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(150, 29);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Зкинути чергу";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.restoreQueueButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.restoreQueueButton.FlatAppearance.BorderSize = 0;
+            this.restoreQueueButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.restoreQueueButton.Location = new System.Drawing.Point(293, 466);
+            this.restoreQueueButton.Name = "restoreQueueButton";
+            this.restoreQueueButton.Size = new System.Drawing.Size(150, 29);
+            this.restoreQueueButton.TabIndex = 12;
+            this.restoreQueueButton.Text = "Скинути чергу";
+            this.restoreQueueButton.UseVisualStyleBackColor = true;
+            this.restoreQueueButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 505);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.restoreQueueButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -228,6 +228,6 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private Button button1;
+        private Button restoreQueueButton;
     }
 }
