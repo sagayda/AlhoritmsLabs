@@ -37,22 +37,15 @@
         }
 
         private readonly int _size;
-        private const int c1 = 1;
-        private const int c2 = 3;
         private const int m = 7;
 
         #region [h() functions]
         private int h(int k) => k % _size;
 
-        //private int h2(int k) => 1 + (k % (_size - 1));
-        private int h2(int k) => m - (k % 7);
-
+        private int h2(int k) => 1 + (k % (_size - 1));
 
         protected int hLinear(int k, int i) => (h(k) + i) % _size;
 
-        protected int hQuad(int k, int i) => (h(k) + (i * i)) % _size;
-
-        //protected int hDouble (int k, int i) => (h(k) + i * h2(k)) % _size;
         protected int hDouble (int k, int i) => (h(k) + i * h2(k)) % _size;
         #endregion
 
@@ -60,6 +53,9 @@
 
         public HashTable(int size)
         {
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException(nameof(size));
+
             _size = size;
 
             HashNodes = new HashNode[_size];
@@ -176,24 +172,6 @@
             }
 
             return hLinear(k, i);
-        }
-    }
-
-    public class HashTableQuad : HashTable
-    {
-        public HashTableQuad(int size) : base(size)
-        {
-        }
-
-        protected override int GetHash(string key, int i)
-        {
-            int k = 0;
-            foreach (var ch in key)
-            {
-                k += ch;
-            }
-
-            return hQuad(k, i);
         }
     }
 

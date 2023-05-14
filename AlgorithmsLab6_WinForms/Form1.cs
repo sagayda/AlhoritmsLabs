@@ -8,7 +8,6 @@ namespace AlgorithmsLab6_WinForms
     {
         public HashTableDouble HashTableDouble;
         public HashTableLinear HashTableLinear;
-        public HashTableQuad HashTableQuad;
         public bool isTablesCreated = false;
 
 
@@ -36,6 +35,12 @@ namespace AlgorithmsLab6_WinForms
                 return;
             }
 
+            if(size <= 0)
+            {
+                MessageBox.Show("Невірний розмір!");
+                return;
+            }
+
             HashTableDouble = new HashTableDouble(size);
             BindingSource sourceDouble = new BindingSource();
             sourceDouble.DataSource = HashTableDouble.HashNodes;
@@ -49,13 +54,6 @@ namespace AlgorithmsLab6_WinForms
             dataGridViewLinear.DataSource = sourceLinear;
             dataGridViewLinear.Columns.Remove("Key");
             dataGridViewLinear.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            HashTableQuad = new HashTableQuad(size);
-            BindingSource sourceQuad = new BindingSource();
-            sourceQuad.DataSource = HashTableQuad.HashNodes;
-            dataGridViewQuad.DataSource = sourceQuad;
-            dataGridViewQuad.Columns.Remove("Key");
-            dataGridViewQuad.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             isTablesCreated = true;
 
@@ -95,16 +93,6 @@ namespace AlgorithmsLab6_WinForms
             {
                 MessageBox.Show("Таблицю HashTableLinear переповнено!");
             }
-
-            try
-            {
-                HashTableQuad.Insert(textBoxInsertKey.Text, textBoxInsertValue.Text);
-                ((BindingSource)dataGridViewQuad.DataSource).ResetBindings(false);
-            }
-            catch (OverflowException)
-            {
-                MessageBox.Show("Таблицю HashTableQuad переповнено!");
-            }
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -123,7 +111,6 @@ namespace AlgorithmsLab6_WinForms
 
             textBoxFindValueDouble.Text = HashTableDouble.Search(textBoxFindKey.Text);
             textBoxFindValueLinear.Text = HashTableLinear.Search(textBoxFindKey.Text);
-            textBoxFindValueQuad.Text = HashTableQuad.Search(textBoxFindKey.Text);
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -159,16 +146,6 @@ namespace AlgorithmsLab6_WinForms
             {
                 MessageBox.Show("Елемента з таким ключем в HashTableLinear не знайдено!");
             }
-
-            try
-            {
-                HashTableQuad.Delete(textBoxDeleteKey.Text);
-                ((BindingSource)dataGridViewQuad.DataSource).ResetBindings(false);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("Елемента з таким ключем в HashTableQuad не знайдено!");
-            }
         }
 
         private void buttonExtract_Click(object sender, EventArgs e)
@@ -203,16 +180,6 @@ namespace AlgorithmsLab6_WinForms
             catch (ArgumentException)
             {
                 MessageBox.Show("Елемента з таким ключем в HashTableLinear не знайдено!");
-            }
-
-            try
-            {
-                textBoxExtractValueQuad.Text = HashTableQuad.Extract(textBoxExtractKey.Text);
-                ((BindingSource)dataGridViewQuad.DataSource).ResetBindings(false);
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("Елемента з таким ключем в HashTableQuad не знайдено!");
             }
         }
     }

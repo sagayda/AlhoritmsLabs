@@ -46,14 +46,9 @@
             dataGridViewLinear = new DataGridView();
             textBoxExtractValueLinear = new TextBox();
             label1 = new Label();
-            dataGridViewQuad = new DataGridView();
             label2 = new Label();
-            label3 = new Label();
-            textBoxFindValueQuad = new TextBox();
-            textBoxExtractValueQuad = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewDouble).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewLinear).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewQuad).BeginInit();
             SuspendLayout();
             // 
             // buttonCreateTables
@@ -148,7 +143,7 @@
             textBoxFindValueDouble.Location = new Point(813, 210);
             textBoxFindValueDouble.Name = "textBoxFindValueDouble";
             textBoxFindValueDouble.ReadOnly = true;
-            textBoxFindValueDouble.Size = new Size(120, 27);
+            textBoxFindValueDouble.Size = new Size(179, 27);
             textBoxFindValueDouble.TabIndex = 12;
             textBoxFindValueDouble.TabStop = false;
             // 
@@ -173,16 +168,16 @@
             textBoxExtractValueDouble.Location = new Point(813, 414);
             textBoxExtractValueDouble.Name = "textBoxExtractValueDouble";
             textBoxExtractValueDouble.ReadOnly = true;
-            textBoxExtractValueDouble.Size = new Size(120, 27);
+            textBoxExtractValueDouble.Size = new Size(179, 27);
             textBoxExtractValueDouble.TabIndex = 15;
             textBoxExtractValueDouble.TabStop = false;
             // 
             // textBoxFindValueLinear
             // 
-            textBoxFindValueLinear.Location = new Point(939, 210);
+            textBoxFindValueLinear.Location = new Point(998, 210);
             textBoxFindValueLinear.Name = "textBoxFindValueLinear";
             textBoxFindValueLinear.ReadOnly = true;
-            textBoxFindValueLinear.Size = new Size(121, 27);
+            textBoxFindValueLinear.Size = new Size(176, 27);
             textBoxFindValueLinear.TabIndex = 17;
             textBoxFindValueLinear.TabStop = false;
             // 
@@ -196,7 +191,7 @@
             dataGridViewDouble.ReadOnly = true;
             dataGridViewDouble.RowHeadersWidth = 51;
             dataGridViewDouble.RowTemplate.Height = 29;
-            dataGridViewDouble.Size = new Size(250, 351);
+            dataGridViewDouble.Size = new Size(393, 351);
             dataGridViewDouble.TabIndex = 18;
             // 
             // dataGridViewLinear
@@ -204,20 +199,20 @@
             dataGridViewLinear.AllowUserToAddRows = false;
             dataGridViewLinear.AllowUserToDeleteRows = false;
             dataGridViewLinear.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewLinear.Location = new Point(268, 90);
+            dataGridViewLinear.Location = new Point(411, 90);
             dataGridViewLinear.Name = "dataGridViewLinear";
             dataGridViewLinear.ReadOnly = true;
             dataGridViewLinear.RowHeadersWidth = 51;
             dataGridViewLinear.RowTemplate.Height = 29;
-            dataGridViewLinear.Size = new Size(250, 351);
+            dataGridViewLinear.Size = new Size(396, 351);
             dataGridViewLinear.TabIndex = 20;
             // 
             // textBoxExtractValueLinear
             // 
-            textBoxExtractValueLinear.Location = new Point(939, 414);
+            textBoxExtractValueLinear.Location = new Point(998, 414);
             textBoxExtractValueLinear.Name = "textBoxExtractValueLinear";
             textBoxExtractValueLinear.ReadOnly = true;
-            textBoxExtractValueLinear.Size = new Size(121, 27);
+            textBoxExtractValueLinear.Size = new Size(176, 27);
             textBoxExtractValueLinear.TabIndex = 22;
             textBoxExtractValueLinear.TabStop = false;
             // 
@@ -231,67 +226,22 @@
             label1.TabIndex = 23;
             label1.Text = "Double";
             // 
-            // dataGridViewQuad
-            // 
-            dataGridViewQuad.AllowUserToAddRows = false;
-            dataGridViewQuad.AllowUserToDeleteRows = false;
-            dataGridViewQuad.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewQuad.Location = new Point(524, 90);
-            dataGridViewQuad.Name = "dataGridViewQuad";
-            dataGridViewQuad.ReadOnly = true;
-            dataGridViewQuad.RowHeadersWidth = 51;
-            dataGridViewQuad.RowTemplate.Height = 29;
-            dataGridViewQuad.Size = new Size(250, 351);
-            dataGridViewQuad.TabIndex = 24;
-            // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(268, 61);
+            label2.Location = new Point(411, 64);
             label2.Name = "label2";
             label2.Size = new Size(56, 23);
             label2.TabIndex = 25;
             label2.Text = "Linear";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(524, 61);
-            label3.Name = "label3";
-            label3.Size = new Size(52, 23);
-            label3.TabIndex = 26;
-            label3.Text = "Quad";
-            // 
-            // textBoxFindValueQuad
-            // 
-            textBoxFindValueQuad.Location = new Point(1066, 210);
-            textBoxFindValueQuad.Name = "textBoxFindValueQuad";
-            textBoxFindValueQuad.ReadOnly = true;
-            textBoxFindValueQuad.Size = new Size(108, 27);
-            textBoxFindValueQuad.TabIndex = 27;
-            textBoxFindValueQuad.TabStop = false;
-            // 
-            // textBoxExtractValueQuad
-            // 
-            textBoxExtractValueQuad.Location = new Point(1066, 414);
-            textBoxExtractValueQuad.Name = "textBoxExtractValueQuad";
-            textBoxExtractValueQuad.ReadOnly = true;
-            textBoxExtractValueQuad.Size = new Size(106, 27);
-            textBoxExtractValueQuad.TabIndex = 28;
-            textBoxExtractValueQuad.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1182, 453);
-            Controls.Add(textBoxExtractValueQuad);
-            Controls.Add(textBoxFindValueQuad);
-            Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(dataGridViewQuad);
             Controls.Add(dataGridViewLinear);
             Controls.Add(dataGridViewDouble);
             Controls.Add(label1);
@@ -317,7 +267,6 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewDouble).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewLinear).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewQuad).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -345,10 +294,6 @@
         private DataGridView dataGridViewLinear;
         private TextBox textBoxExtractValueLinear;
         private Label label1;
-        private DataGridView dataGridViewQuad;
         private Label label2;
-        private Label label3;
-        private TextBox textBoxFindValueQuad;
-        private TextBox textBoxExtractValueQuad;
     }
 }
