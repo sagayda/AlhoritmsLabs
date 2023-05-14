@@ -4,13 +4,7 @@
     {
         static void Main(string[] args)
         {
-            QueueByArray<string> queue = new QueueByArray<string>(5);
-            queue.Enqueue("A");
-            queue.Enqueue("B");
-            queue.Enqueue("C");
-            queue.Enqueue("D");
-            queue.Enqueue("E");
-
+            QueueByArray<string> queue = new QueueByArray<string>(1);
             Console.WriteLine(queue.Dequeue());
             Console.WriteLine(queue.Dequeue());
 
