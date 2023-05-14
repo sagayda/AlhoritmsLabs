@@ -46,14 +46,14 @@
             dataGridViewLinear = new DataGridView();
             textBoxExtractValueLinear = new TextBox();
             label1 = new Label();
+            dataGridViewQuad = new DataGridView();
+            label2 = new Label();
             label3 = new Label();
-            splitContainer1 = new SplitContainer();
+            textBoxFindValueQuad = new TextBox();
+            textBoxExtractValueQuad = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewDouble).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewLinear).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewQuad).BeginInit();
             SuspendLayout();
             // 
             // buttonCreateTables
@@ -148,7 +148,7 @@
             textBoxFindValueDouble.Location = new Point(813, 210);
             textBoxFindValueDouble.Name = "textBoxFindValueDouble";
             textBoxFindValueDouble.ReadOnly = true;
-            textBoxFindValueDouble.Size = new Size(178, 27);
+            textBoxFindValueDouble.Size = new Size(120, 27);
             textBoxFindValueDouble.TabIndex = 12;
             textBoxFindValueDouble.TabStop = false;
             // 
@@ -173,16 +173,16 @@
             textBoxExtractValueDouble.Location = new Point(813, 414);
             textBoxExtractValueDouble.Name = "textBoxExtractValueDouble";
             textBoxExtractValueDouble.ReadOnly = true;
-            textBoxExtractValueDouble.Size = new Size(178, 27);
+            textBoxExtractValueDouble.Size = new Size(120, 27);
             textBoxExtractValueDouble.TabIndex = 15;
             textBoxExtractValueDouble.TabStop = false;
             // 
             // textBoxFindValueLinear
             // 
-            textBoxFindValueLinear.Location = new Point(997, 210);
+            textBoxFindValueLinear.Location = new Point(939, 210);
             textBoxFindValueLinear.Name = "textBoxFindValueLinear";
             textBoxFindValueLinear.ReadOnly = true;
-            textBoxFindValueLinear.Size = new Size(177, 27);
+            textBoxFindValueLinear.Size = new Size(121, 27);
             textBoxFindValueLinear.TabIndex = 17;
             textBoxFindValueLinear.TabStop = false;
             // 
@@ -191,13 +191,12 @@
             dataGridViewDouble.AllowUserToAddRows = false;
             dataGridViewDouble.AllowUserToDeleteRows = false;
             dataGridViewDouble.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewDouble.Dock = DockStyle.Bottom;
-            dataGridViewDouble.Location = new Point(0, 30);
+            dataGridViewDouble.Location = new Point(12, 90);
             dataGridViewDouble.Name = "dataGridViewDouble";
             dataGridViewDouble.ReadOnly = true;
             dataGridViewDouble.RowHeadersWidth = 51;
             dataGridViewDouble.RowTemplate.Height = 29;
-            dataGridViewDouble.Size = new Size(397, 351);
+            dataGridViewDouble.Size = new Size(250, 351);
             dataGridViewDouble.TabIndex = 18;
             // 
             // dataGridViewLinear
@@ -205,21 +204,20 @@
             dataGridViewLinear.AllowUserToAddRows = false;
             dataGridViewLinear.AllowUserToDeleteRows = false;
             dataGridViewLinear.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewLinear.Dock = DockStyle.Bottom;
-            dataGridViewLinear.Location = new Point(0, 30);
+            dataGridViewLinear.Location = new Point(268, 90);
             dataGridViewLinear.Name = "dataGridViewLinear";
             dataGridViewLinear.ReadOnly = true;
             dataGridViewLinear.RowHeadersWidth = 51;
             dataGridViewLinear.RowTemplate.Height = 29;
-            dataGridViewLinear.Size = new Size(394, 351);
+            dataGridViewLinear.Size = new Size(250, 351);
             dataGridViewLinear.TabIndex = 20;
             // 
             // textBoxExtractValueLinear
             // 
-            textBoxExtractValueLinear.Location = new Point(997, 414);
+            textBoxExtractValueLinear.Location = new Point(939, 414);
             textBoxExtractValueLinear.Name = "textBoxExtractValueLinear";
             textBoxExtractValueLinear.ReadOnly = true;
-            textBoxExtractValueLinear.Size = new Size(177, 27);
+            textBoxExtractValueLinear.Size = new Size(121, 27);
             textBoxExtractValueLinear.TabIndex = 22;
             textBoxExtractValueLinear.TabStop = false;
             // 
@@ -227,47 +225,76 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(3, 5);
+            label1.Location = new Point(12, 61);
             label1.Name = "label1";
             label1.Size = new Size(65, 23);
             label1.TabIndex = 23;
             label1.Text = "Double";
             // 
+            // dataGridViewQuad
+            // 
+            dataGridViewQuad.AllowUserToAddRows = false;
+            dataGridViewQuad.AllowUserToDeleteRows = false;
+            dataGridViewQuad.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewQuad.Location = new Point(524, 90);
+            dataGridViewQuad.Name = "dataGridViewQuad";
+            dataGridViewQuad.ReadOnly = true;
+            dataGridViewQuad.RowHeadersWidth = 51;
+            dataGridViewQuad.RowTemplate.Height = 29;
+            dataGridViewQuad.Size = new Size(250, 351);
+            dataGridViewQuad.TabIndex = 24;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(268, 61);
+            label2.Name = "label2";
+            label2.Size = new Size(56, 23);
+            label2.TabIndex = 25;
+            label2.Text = "Linear";
+            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(3, 5);
+            label3.Location = new Point(524, 61);
             label3.Name = "label3";
-            label3.Size = new Size(56, 23);
-            label3.TabIndex = 23;
-            label3.Text = "Linear";
+            label3.Size = new Size(52, 23);
+            label3.TabIndex = 26;
+            label3.Text = "Quad";
             // 
-            // splitContainer1
+            // textBoxFindValueQuad
             // 
-            splitContainer1.IsSplitterFixed = true;
-            splitContainer1.Location = new Point(12, 60);
-            splitContainer1.Name = "splitContainer1";
+            textBoxFindValueQuad.Location = new Point(1066, 210);
+            textBoxFindValueQuad.Name = "textBoxFindValueQuad";
+            textBoxFindValueQuad.ReadOnly = true;
+            textBoxFindValueQuad.Size = new Size(108, 27);
+            textBoxFindValueQuad.TabIndex = 27;
+            textBoxFindValueQuad.TabStop = false;
             // 
-            // splitContainer1.Panel1
+            // textBoxExtractValueQuad
             // 
-            splitContainer1.Panel1.Controls.Add(dataGridViewDouble);
-            splitContainer1.Panel1.Controls.Add(label1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(dataGridViewLinear);
-            splitContainer1.Panel2.Controls.Add(label3);
-            splitContainer1.Size = new Size(795, 381);
-            splitContainer1.SplitterDistance = 397;
-            splitContainer1.TabIndex = 24;
+            textBoxExtractValueQuad.Location = new Point(1066, 414);
+            textBoxExtractValueQuad.Name = "textBoxExtractValueQuad";
+            textBoxExtractValueQuad.ReadOnly = true;
+            textBoxExtractValueQuad.Size = new Size(106, 27);
+            textBoxExtractValueQuad.TabIndex = 28;
+            textBoxExtractValueQuad.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1182, 453);
-            Controls.Add(splitContainer1);
+            Controls.Add(textBoxExtractValueQuad);
+            Controls.Add(textBoxFindValueQuad);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(dataGridViewQuad);
+            Controls.Add(dataGridViewLinear);
+            Controls.Add(dataGridViewDouble);
+            Controls.Add(label1);
             Controls.Add(textBoxExtractValueLinear);
             Controls.Add(textBoxFindValueLinear);
             Controls.Add(textBoxExtractValueDouble);
@@ -290,12 +317,7 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewDouble).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewLinear).EndInit();
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel1.PerformLayout();
-            splitContainer1.Panel2.ResumeLayout(false);
-            splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewQuad).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -323,7 +345,10 @@
         private DataGridView dataGridViewLinear;
         private TextBox textBoxExtractValueLinear;
         private Label label1;
+        private DataGridView dataGridViewQuad;
+        private Label label2;
         private Label label3;
-        private SplitContainer splitContainer1;
+        private TextBox textBoxFindValueQuad;
+        private TextBox textBoxExtractValueQuad;
     }
 }
