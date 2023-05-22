@@ -28,28 +28,21 @@
                 return Key.ToString();
             }
 
-            public static bool IsDeleted(HashNode hashNode)
+            public static bool IsDeleted(HashNode? hashNode)
             {
+                if(hashNode == null) 
+                    return false;
+
                 if(hashNode.Value == HashNode.Deleted.Value && hashNode.Key == HashNode.Deleted.Key)
                     return true;
+
                 return false;
             }
         }
 
-        private readonly int _size;
-        private const int m = 7;
+        protected readonly int _size;
 
-        #region [h() functions]
-        private int h(int k) => k % _size;
-
-        private int h2(int k) => 1 + (k % (_size - 1));
-
-        protected int hLinear(int k, int i) => (h(k) + i) % _size;
-
-        protected int hDouble (int k, int i) => (h(k) + i * h2(k)) % _size;
-        #endregion
-
-        public HashNode[] HashNodes { get; private set; }
+        public HashNode?[] HashNodes { get; private set; }
 
         public HashTable(int size)
         {
@@ -66,20 +59,21 @@
             }
         }
 
-        protected abstract int GetHash(string key, int i);
+        protected abstract int GetHash(int key, int i);
 
         public int Insert(string key, string value)
         {
             if(string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
 
+            if(string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
+
             int i = 0;
-            int hash;
+            int hash = StringKeyToInt(key);
 
             do
             {
-                hash = GetHash(key,i);
-
                 if (HashNodes[hash] == null || HashNode.IsDeleted(HashNodes[hash]))
                 {
                     HashNode hashNode = new HashNode(key, value);
@@ -90,6 +84,7 @@
                 }
 
                 i++;
+                hash = GetHash(hash, i);
             } while (i < _size);
 
             throw new OverflowException();
@@ -98,17 +93,17 @@
         public string? Search(string key) 
         {
             int i = 0;
-            int hash;
-
+            int hash = StringKeyToInt(key);
             do
             {
-                hash = GetHash(key, i);
 
                 if (HashNodes[hash]?.Key == key)
                 {
-                    return HashNodes[hash].Value;
+                    return HashNodes[hash]?.Value;
                 }
+
                 i++;
+                hash = GetHash(hash, i);
             } while (i < _size && HashNodes[hash] != null);
 
             return null;
@@ -117,18 +112,18 @@
         public int Delete(string key)
         {
             int i = 0;
-            int hash;
+            int hash = StringKeyToInt(key);
 
             do
             {
-                hash = GetHash(key, i);
-
                 if (HashNodes[hash]?.Key == key)
                 {
                     HashNodes[hash] = HashNode.Deleted;
                     return hash;
                 }
+
                 i++;
+                hash = GetHash(hash, i);
             } while (i < _size && HashNodes[hash] != null);
 
             throw new ArgumentException(null, nameof(key));
@@ -137,22 +132,34 @@
         public string Extract(string key)
         {
             int i = 0;
-            int hash;
+            int hash = StringKeyToInt(key);
 
             do
             {
-                hash = GetHash(key, i);
-
-                if (HashNodes[hash]?.Key == key)
+                if (HashNodes[hash] != null && HashNodes[hash].Key == key)
                 {
                     string temp = HashNodes[hash].Value;
                     HashNodes[hash] = HashNode.Deleted;
                     return temp;
                 }
+                
                 i++;
+                hash = GetHash(hash, i);
             } while (i < _size && HashNodes[hash] != null);
 
             throw new ArgumentException(null, nameof(key));
+        }
+
+        public int StringKeyToInt(string key)
+        {
+            int k = 0;
+            
+            foreach (var ch in key)
+            {
+                k += ch;
+            }
+
+            return k % _size;
         }
     }
 
@@ -163,15 +170,9 @@
 
         }
 
-        protected override int GetHash(string key, int i)
+        protected override int GetHash(int key, int i)
         {
-            int k = 0;
-            foreach (var ch in key)
-            {
-                k += ch;
-            }
-
-            return hLinear(k, i);
+            return (key + 1) % _size;
         }
     }
 
@@ -182,15 +183,24 @@
 
         }
 
-        protected override int GetHash(string key, int i)
+        protected override int GetHash(int key, int i)
         {
-            int k = 0;
-            foreach (var ch in key)
-            {
-                k += ch;
-            }
+            int hash2 = 1 + key % (_size - 1);
 
-            return hDouble(k, i);
+            return (key + i * hash2) % _size;
+        }
+    }
+
+    public class HashTableQuad : HashTable
+    {
+        public HashTableQuad(int size) : base(size)
+        {
+
+        }
+
+        protected override int GetHash(int key, int i)
+        {
+            return (key + i * i) % _size;
         }
     }
 }
