@@ -17,12 +17,11 @@ namespace AlgoritmsLab8
 
             public AVLTreeNode? RightChild { get; set; }
 
-            public int NodeHeight { get; set; }
+            public int NodeHeight => GetHeight();
 
-            public AVLTreeNode(int data, int nodeHeight)
+            public AVLTreeNode(int data)
             {
                 Data = data;
-                NodeHeight = nodeHeight;
 
                 LeftChild = null;
                 RightChild = null;
@@ -33,7 +32,48 @@ namespace AlgoritmsLab8
                 int leftH = LeftChild == null ? 0 : LeftChild.GetHeight();
                 int rightH = RightChild == null ? 0 : RightChild.GetHeight();
 
-                return leftH > rightH ? leftH : rightH;
+                return leftH > rightH ? leftH +1 : rightH+1;
+            }
+
+            public AVLTreeNode Clone()
+            {
+                AVLTreeNode copy = new(this.Data);
+
+                if (LeftChild != null)
+                    copy.LeftChild = LeftChild.Clone();
+
+                if(RightChild != null)
+                    copy.RightChild = RightChild.Clone();
+
+                return copy;
+            }
+
+            public int GetRightSeperation()
+            {
+                if(RightChild == null && LeftChild == null) 
+                    return 0;
+
+                if (RightChild == null)
+                    return LeftChild.GetRightSeperation();
+
+                if(LeftChild == null)
+                    return RightChild.GetRightSeperation() + 1;
+
+                return LeftChild.GetRightSeperation() + RightChild.GetRightSeperation() + 1;
+            }
+
+            public int GetLeftSeperation()
+            {
+                if (RightChild == null && LeftChild == null)
+                    return 0;
+
+                if (RightChild == null)
+                    return LeftChild.GetLeftSeperation() + 1;
+
+                if (LeftChild == null)
+                    return RightChild.GetLeftSeperation();
+
+                return LeftChild.GetLeftSeperation() + RightChild.GetLeftSeperation() + 1;
             }
         }
 
@@ -48,32 +88,35 @@ namespace AlgoritmsLab8
         {
             if(root == null)
             {
-                root = new(data, 0);
+                root = new(data);
                 return;
             }
 
-            RecursiveInsert(root, data, 0);
+            RecursiveInsert(root, data);
         }
 
-        private AVLTreeNode RecursiveInsert(AVLTreeNode current, int newData, int height)
+        private AVLTreeNode RecursiveInsert(AVLTreeNode current, int newData)
         {
             if(current == null)
             {
-                current = new(newData, height);
+                current = new(newData);
                 return current;
             }
 
+            if (newData == current.Data)
+                throw new ArgumentException();
+
             if(newData < current.Data)
             {
-                current.LeftChild = RecursiveInsert(current.LeftChild, newData, ++height);
+                current.LeftChild = RecursiveInsert(current.LeftChild, newData);
+                current = BalanceTree(current);
+            }
+            else if(newData > current.Data)
+            {
+                current.RightChild = RecursiveInsert(current.RightChild, newData);
                 current = BalanceTree(current);
             }
 
-            if(newData > current.Data)
-            {
-                current.RightChild = RecursiveInsert(current.RightChild, newData, ++height);
-                current = BalanceTree(current);
-            }
             return current;
         }
 
@@ -81,28 +124,68 @@ namespace AlgoritmsLab8
         {
             int balanceFactor = BalanceFactor(current);
 
-            if(balanceFactor > 1)
+            if(balanceFactor < -1)
             {
-                if (BalanceFactor(current.LeftChild) > 0)
+                if(current.RightChild != null)
                 {
-                    current = RotateLL(current);
+                    if(current.RightChild.RightChild != null && current.RightChild.LeftChild != null)
+                    {
+                        if(current.RightChild.RightChild.NodeHeight > current.RightChild.LeftChild.NodeHeight)
+                        {
+
+
+                            //right-left
+                            return RightLeftRotation(current);
+                        }
+                    }
                 }
-                else
-                {
-                    current = RotateLR(current);
-                }
+
+                //left
+                return LeftRotation(current);
             }
-            else if(balanceFactor < -1)
+            else if(balanceFactor > 1)
             {
-                if (BalanceFactor(current.RightChild) > 0)
+                if (current.LeftChild != null)
                 {
-                    current = RotateRL(current);
+                    if(current.LeftChild.LeftChild != null && current.LeftChild.RightChild != null)
+                    {
+                        if(current.LeftChild.LeftChild.NodeHeight > current.LeftChild.RightChild.NodeHeight)
+                        {
+                            //left-right
+                            return LeftRightRotation(current);
+                        }
+                    }
+
                 }
-                else
-                {
-                    current = RotateRR(current);
-                }
+
+                //right
+                return RightRotation(current);
             }
+
+
+
+            //if(balanceFactor > 1)
+            //{
+            //    if (BalanceFactor(current.LeftChild) > 0)
+            //    {
+            //        current = RotateLL(current);
+            //    }
+            //    else
+            //    {
+            //        current = RotateLR(current);
+            //    }
+            //}
+            //else if(balanceFactor < -1)
+            //{
+            //    if (BalanceFactor(current.RightChild) > 0)
+            //    {
+            //        current = RotateRL(current);
+            //    }
+            //    else
+            //    {
+            //        current = RotateRR(current);
+            //    }
+            //}
 
             return current;
 
@@ -112,55 +195,94 @@ namespace AlgoritmsLab8
         {
             int left = current.LeftChild == null ? 0 : current.LeftChild.GetHeight();
             int right = current.RightChild == null ? 0 : current.RightChild.GetHeight();
-            int b_factor = left - right;
-            return b_factor;
+            int balanceFactor = left - right;
+            return balanceFactor;
         }
 
-        private AVLTreeNode RotateRR(AVLTreeNode parent)
+        private AVLTreeNode LeftRotation(AVLTreeNode parent)
         {
             AVLTreeNode pivot = parent.RightChild;
             parent.RightChild = pivot.LeftChild;
             pivot.LeftChild = parent;
-            return pivot;
+
+            if (root == parent)
+                root = pivot;
+
+            return parent;
         }
-        private AVLTreeNode RotateLL(AVLTreeNode parent)
+
+        private AVLTreeNode RightRotation(AVLTreeNode parent)
         {
             AVLTreeNode pivot = parent.LeftChild;
             parent.LeftChild = pivot.RightChild;
             pivot.RightChild = parent;
+
+            if (root == parent)
+                root = pivot;
+
             return pivot;
         }
-        private AVLTreeNode RotateLR(AVLTreeNode parent)
+
+        private AVLTreeNode LeftRightRotation(AVLTreeNode parent)
         {
-            AVLTreeNode pivot = parent.LeftChild;
-            parent.LeftChild = RotateRR(pivot);
-            return RotateLL(parent);
-        }
-        private AVLTreeNode RotateRL(AVLTreeNode parent)
-        {
-            AVLTreeNode pivot = parent.RightChild;
-            parent.RightChild = RotateLL(pivot);
-            return RotateRR(parent);
+            LeftRotation(parent.LeftChild);
+            return RightRotation(parent);
         }
 
-        public void DisplayTree()
+        private AVLTreeNode RightLeftRotation(AVLTreeNode parent)
         {
-            if (root == null)
-            {
-                Console.WriteLine("Tree is empty");
-                return;
-            }
-            InOrderDisplayTree(root);
-            Console.WriteLine();
+            RightRotation(parent.RightChild);
+            return LeftRotation(parent);
         }
-        private void InOrderDisplayTree(AVLTreeNode current)
+        //private AVLTreeNode RotateRR(AVLTreeNode parent)
+        //{
+        //    AVLTreeNode pivot = parent.RightChild;
+        //    parent.RightChild = pivot.LeftChild;
+        //    pivot.LeftChild = parent;
+        //    return pivot;
+        //}
+        //private AVLTreeNode RotateLL(AVLTreeNode parent)
+        //{
+        //    AVLTreeNode pivot = parent.LeftChild;
+        //    parent.LeftChild = pivot.RightChild;
+        //    pivot.RightChild = parent;
+        //    return pivot;
+        //}
+        //private AVLTreeNode RotateLR(AVLTreeNode parent)
+        //{
+        //    AVLTreeNode pivot = parent.LeftChild;
+        //    parent.LeftChild = RotateRR(pivot);
+        //    return RotateLL(parent);
+        //}
+        //private AVLTreeNode RotateRL(AVLTreeNode parent)
+        //{
+        //    AVLTreeNode pivot = parent.RightChild;
+        //    parent.RightChild = RotateLL(pivot);
+        //    return RotateRR(parent);
+        //}
+
+        private int GetMaxHeightFromNode(AVLTreeNode node)
         {
-            if (current != null)
+            if(node.RightChild == null && node.LeftChild == null) 
             {
-                InOrderDisplayTree(current.LeftChild);
-                Console.Write("({0}) ", current.Data);
-                InOrderDisplayTree(current.RightChild);
+                return 1;
             }
+
+            if(node.RightChild == null)
+            {
+                return 1 + GetMaxHeightFromNode(node.LeftChild);
+            }
+
+            if(node.LeftChild == null)
+            {
+                return 1 + GetMaxHeightFromNode(node.RightChild);
+            }
+
+            int r = 1 + GetMaxHeightFromNode(node.RightChild);
+            int l = 1 + GetMaxHeightFromNode(node.LeftChild);
+
+            return r > l ? r : l;
         }
+
     }
 }
