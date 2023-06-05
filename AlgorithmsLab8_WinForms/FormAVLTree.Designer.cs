@@ -55,37 +55,45 @@
             // 
             // buttonFind
             // 
+            buttonFind.BackColor = SystemColors.Control;
+            buttonFind.FlatStyle = FlatStyle.Flat;
             buttonFind.Location = new Point(354, 7);
             buttonFind.Name = "buttonFind";
             buttonFind.Size = new Size(108, 29);
             buttonFind.TabIndex = 11;
             buttonFind.Text = "Find";
-            buttonFind.UseVisualStyleBackColor = true;
+            buttonFind.UseVisualStyleBackColor = false;
             buttonFind.Click += buttonFind_Click;
             // 
             // buttonRemove
             // 
+            buttonRemove.BackColor = SystemColors.Control;
+            buttonRemove.FlatStyle = FlatStyle.Flat;
             buttonRemove.Location = new Point(240, 7);
             buttonRemove.Name = "buttonRemove";
             buttonRemove.Size = new Size(108, 29);
             buttonRemove.TabIndex = 10;
             buttonRemove.Text = "Remove";
-            buttonRemove.UseVisualStyleBackColor = true;
+            buttonRemove.UseVisualStyleBackColor = false;
             buttonRemove.Click += buttonRemove_Click;
             // 
             // buttonAdd
             // 
+            buttonAdd.BackColor = SystemColors.Control;
+            buttonAdd.FlatStyle = FlatStyle.Flat;
             buttonAdd.Location = new Point(126, 6);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(108, 29);
             buttonAdd.TabIndex = 8;
             buttonAdd.Text = "Add";
-            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.UseVisualStyleBackColor = false;
             buttonAdd.Click += buttonAdd_Click;
             // 
             // labelTimer
             // 
             labelTimer.AutoSize = true;
+            labelTimer.BackColor = SystemColors.Control;
+            labelTimer.FlatStyle = FlatStyle.Flat;
             labelTimer.Location = new Point(468, 11);
             labelTimer.Name = "labelTimer";
             labelTimer.Size = new Size(0, 20);
@@ -106,7 +114,7 @@
             Controls.Add(panel1);
             MinimumSize = new Size(576, 583);
             Name = "FormAVLTree";
-            Text = "Form1";
+            Text = "FormAVLTree";
             ResumeLayout(false);
             PerformLayout();
         }

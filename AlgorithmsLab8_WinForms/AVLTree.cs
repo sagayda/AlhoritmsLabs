@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.CodeDom;
 
 namespace AlgoritmsLab8
 {
     public class AVLTree
     {
-        public class Node 
+        public class Node
         {
             public int Data { get; set; }
 
@@ -19,6 +15,8 @@ namespace AlgoritmsLab8
 
             public bool Triggered { get; set; } = false;
 
+            public int Height { get; set; } = 1;
+
             public Node(int data)
             {
                 Data = data;
@@ -27,36 +25,15 @@ namespace AlgoritmsLab8
                 RightChild = null;
             }
 
-            public int GetHeight(Node nil)
-            {
-                int leftH = LeftChild == nil ? 0 : LeftChild.GetHeight(nil);
-                int rightH = RightChild == nil ? 0 : RightChild.GetHeight(nil);
-
-                return leftH > rightH ? leftH +1 : rightH+1;
-            }
-
-            public Node Clone()
-            {
-                Node copy = new(this.Data);
-
-                if (LeftChild != null)
-                    copy.LeftChild = LeftChild.Clone();
-
-                if(RightChild != null)
-                    copy.RightChild = RightChild.Clone();
-
-                return copy;
-            }
-
             public int GetRightSeperation()
             {
-                if(RightChild == null && LeftChild == null) 
+                if (RightChild == null && LeftChild == null)
                     return 0;
 
                 if (RightChild == null)
                     return LeftChild.GetRightSeperation();
 
-                if(LeftChild == null)
+                if (LeftChild == null)
                     return RightChild.GetRightSeperation() + 1;
 
                 return LeftChild.GetRightSeperation() + RightChild.GetRightSeperation() + 1;
@@ -119,10 +96,10 @@ namespace AlgoritmsLab8
 
         public void Insert(int data)
         {
-            Root = InsertNode(Root, data);
+            Root = Insert(Root, data);
         }
 
-        private Node InsertNode(Node node, int data)
+        private Node Insert(Node node, int data)
         {
             if (node == Nil)
             {
@@ -134,48 +111,37 @@ namespace AlgoritmsLab8
             }
 
             if (data < node.Data)
-            {
-                node.LeftChild = InsertNode(node.LeftChild, data);
-            }
+                node.LeftChild = Insert(node.LeftChild, data);
             else if (data > node.Data)
-            {
-                node.RightChild = InsertNode(node.RightChild, data);
-            }
+                node.RightChild = Insert(node.RightChild, data);
             else
+                throw new ArgumentException("This element already exist!");
+
+            node.Height = 1 + Math.Max(Height(node.LeftChild), Height(node.RightChild));
+
+            int balance = GetBalance(node);
+
+            if (balance > 1)
             {
-                return node;
+                if (data < node.LeftChild.Data)
+                    return RotateRight(node);
+
+                if (data > node.LeftChild.Data)
+                {
+                    node.LeftChild = RotateLeft(node.LeftChild);
+                    return RotateRight(node);
+                }
             }
 
-            int balanceFactor = GetBalanceFactor(node);
-            if (balanceFactor > 1 || balanceFactor < -1)
+            if (balance < -1)
             {
-                if (data < node.Data)
+                if (data > node.RightChild.Data)
+                    return RotateLeft(node);
+
+                if (data < node.RightChild.Data)
                 {
-                    if (data < node.LeftChild!.Data)
-                    {
-                        // Лево-левый случай
-                        node = RotateRight(node);
-                    }
-                    else
-                    {
-                        // Лево-правый случай
-                        node.LeftChild = RotateLeft(node.LeftChild);
-                        node = RotateRight(node);
-                    }
-                }
-                else
-                {
-                    if (data > node.RightChild!.Data)
-                    {
-                        // Право-правый случай
-                        node = RotateLeft(node);
-                    }
-                    else
-                    {
-                        // Право-левый случай
-                        node.RightChild = RotateRight(node.RightChild);
-                        node = RotateLeft(node);
-                    }
+                    node.RightChild = RotateRight(node.RightChild);
+                    return RotateLeft(node);
                 }
             }
 
@@ -184,174 +150,145 @@ namespace AlgoritmsLab8
 
         public bool Search(int data)
         {
-            Root.Triggered = true;
-
-            return SearchNode(Root, data) != Nil;
+            return Search(Root, data);
         }
 
-        private Node SearchNode(Node node, int data)
+        private bool Search(Node node, int data)
         {
             if (node == Nil)
-                return node;
-
-            node.Triggered = true;
-
-            if (node.Data == data)
-            {
-                return node;
-            }
+                return false;
 
             if (data < node.Data)
             {
-                // Рекурсивный поиск в левом поддереве
-                return SearchNode(node.LeftChild, data);
+                node.Triggered = true;
+                return Search(node.LeftChild, data);
             }
-            else
+            else if (data > node.Data)
             {
-                // Рекурсивный поиск в правом поддереве
-                return SearchNode(node.RightChild, data);
+                node.Triggered = true;
+                return Search(node.RightChild, data);
             }
+
+            node.Triggered = true;
+            return true;
         }
 
         public void Delete(int data)
         {
-            Root = DeleteNode(Root, data);
+            Root = Delete(Root, data);
         }
 
-        private Node DeleteNode(Node node, int data)
+        private Node Delete(Node node, int data)
         {
             if (node == Nil)
-            {
-                // Узел не найден, возвращаем null
-                return null;
-            }
+                throw new ArgumentException("No such element exists!");
 
             if (data < node.Data)
-            {
-                // Рекурсивное удаление из левого поддерева
-                node.LeftChild = DeleteNode(node.LeftChild, data);
-            }
+                node.LeftChild = Delete(node.LeftChild, data);
             else if (data > node.Data)
-            {
-                // Рекурсивное удаление из правого поддерева
-                node.RightChild = DeleteNode(node.RightChild, data);
-            }
+                node.RightChild = Delete(node.RightChild, data);
             else
             {
-                // Найден узел для удаления
+                if (node.LeftChild == Nil || node.RightChild == Nil)
+                {
+                    Node temp = node.LeftChild != Nil ? node.LeftChild : node.RightChild;
 
-                if (node.LeftChild == Nil && node.RightChild == Nil)
-                {
-                    // Узел является листом
-                    return null;
-                }
-                else if (node.LeftChild == Nil)
-                {
-                    // Узел имеет только правого потомка
-                    return node.RightChild;
-                }
-                else if (node.RightChild == Nil)
-                {
-                    // Узел имеет только левого потомка
-                    return node.LeftChild;
+                    if (temp == Nil)
+                    {
+                        temp = node;
+                        node = Nil;
+                    }
+                    else
+                        node = temp;
                 }
                 else
                 {
-                    // Узел имеет оба потомка
-
-                    // Находим наименьший элемент в правом поддереве
-                    Node minValueNode = FindMinValueNode(node.RightChild);
-
-                    // Заменяем значение удаляемого узла на найденное минимальное значение
-                    node.Data = minValueNode.Data;
-
-                    // Рекурсивно удаляем найденный минимальный узел из правого поддерева
-                    node.RightChild = DeleteNode(node.RightChild, minValueNode.Data);
+                    Node temp = GetMinValueNode(node.RightChild);
+                    node.Data = temp.Data;
+                    node.RightChild = Delete(node.RightChild, temp.Data);
                 }
             }
 
-            // После удаления, выполняем повороты и обновляем высоты узлов
-            int balanceFactor = GetBalanceFactor(node);
-            if (balanceFactor > 1 || balanceFactor < -1)
+            if (node == Nil)
+                return node;
+
+            node.Height = 1 + Math.Max(Height(node.LeftChild), Height(node.RightChild));
+
+            int balance = GetBalance(node);
+
+            if (balance > 1)
             {
-                // Нарушен баланс, выполняем повороты
-                if (data < node.Data)
-                {
-                    // Удаленный элемент находился в левом поддереве левого потомка
-                    if (data < node.LeftChild!.Data)
-                    {
-                        // Лево-левый случай
-                        node = RotateRight(node);
-                    }
-                    else
-                    {
-                        // Лево-правый случай
-                        node.LeftChild = RotateLeft(node.LeftChild);
-                        node = RotateRight(node);
-                    }
-                }
-                else
-                {
-                    // Удаленный элемент находился в правом поддереве правого потомка
-                    if (data > node.RightChild!.Data)
-                    {
-                        // Право-правый случай
-                        node = RotateLeft(node);
-                    }
-                    else
-                    {
-                        // Право-левый случай
-                        node.RightChild = RotateRight(node.RightChild);
-                        node = RotateLeft(node);
-                    }
-                }
+                if (GetBalance(node.LeftChild) >= 0)
+                    return RotateRight(node);
+
+                node.LeftChild = RotateLeft(node.LeftChild);
+                return RotateRight(node);
+            }
+
+            if (balance < -1)
+            {
+                if (GetBalance(node.RightChild) <= 0)
+                    return RotateLeft(node);
+
+                node.RightChild = RotateRight(node.RightChild);
+                return RotateLeft(node);
             }
 
             return node;
         }
 
-        private Node FindMinValueNode(Node node)
+        private Node GetMinValueNode(Node node)
         {
-            if (node.LeftChild == Nil)
-            {
-                return node;
-            }
-            else
-            {
-                return FindMinValueNode(node.LeftChild);
-            }
+            Node current = node;
+
+            while (current.LeftChild != Nil)
+                current = current.LeftChild;
+
+            return current;
         }
 
-        private int GetBalanceFactor(Node node)
+        private int Height(Node node)
         {
-            int leftHeight = node.LeftChild == Nil ? 0 : node.LeftChild.GetHeight(Nil);
-            int rightHeight = node.RightChild == Nil ? 0 : node.RightChild.GetHeight(Nil);
+            if (node == Nil)
+                return 0;
 
-            return leftHeight - rightHeight;
+            return node.Height;
         }
 
-        private Node RotateLeft(Node node)
+        private int GetBalance(Node node)
         {
-            Node pivot = node.RightChild!;
-            node.RightChild = pivot.LeftChild;
-            pivot.LeftChild = node;
+            if (node == Nil)
+                return 0;
 
-            if(Root == node)
-                Root = pivot;
-
-            return pivot;
+            return Height(node.LeftChild) - Height(node.RightChild);
         }
 
-        private Node RotateRight(Node node)
+        private Node RotateRight(Node y)
         {
-            Node pivot = node.LeftChild!;
-            node.LeftChild = pivot.RightChild;
-            pivot.RightChild = node;
+            Node x = y.LeftChild;
+            Node T2 = x.RightChild;
 
-            if (Root == node)
-                Root = pivot;
+            x.RightChild = y;
+            y.LeftChild = T2;
 
-            return pivot;
+            y.Height = 1 + Math.Max(Height(y.LeftChild), Height(y.RightChild));
+            x.Height = 1 + Math.Max(Height(x.LeftChild), Height(x.RightChild));
+
+            return x;
+        }
+
+        private Node RotateLeft(Node x)
+        {
+            Node y = x.RightChild;
+            Node T2 = y.LeftChild;
+
+            y.LeftChild = x;
+            x.RightChild = T2;
+
+            x.Height = 1 + Math.Max(Height(x.LeftChild), Height(x.RightChild));
+            y.Height = 1 + Math.Max(Height(y.LeftChild), Height(y.RightChild));
+
+            return y;
         }
     }
 }

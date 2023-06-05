@@ -10,15 +10,23 @@ namespace AlgorithmsLab8_WinForms
 
         private List<VisualEdge> VisualEdges = new();
 
-        public FormRedBlackTree()
+        public FormRedBlackTree(int less, int greater, int count)
         {
             InitializeComponent();
 
             Random random = new Random();
-            for (int i = 0; i < 10; i++)
+            try
             {
-                int rnd = random.Next(0, 500);
-                RedBlackTree.Insert(rnd);
+                for (int i = 0; i < count; i++)
+                {
+                    int rnd = random.Next(less, greater);
+                    RedBlackTree.Insert(rnd);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to create tree!", "Error");
+                return;
             }
 
             CreateRedBlackTree();
@@ -190,7 +198,16 @@ namespace AlgorithmsLab8_WinForms
 
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            RedBlackTree.Insert(int.Parse(textBoxData.Text));
+            try
+            {
+                RedBlackTree.Insert(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
@@ -206,7 +223,16 @@ namespace AlgorithmsLab8_WinForms
 
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            RedBlackTree.Delete(int.Parse(textBoxData.Text));
+            try
+            {
+                RedBlackTree.Delete(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
@@ -220,26 +246,33 @@ namespace AlgorithmsLab8_WinForms
         {
             RedBlackTree.ClearTriggered();
 
+            bool result;
+
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            RedBlackTree.Search(int.Parse(textBoxData.Text));
+            try
+            {
+                result = RedBlackTree.Search(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                buttonFind.BackColor = SystemColors.Control;
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
+            if (result)
+                buttonFind.BackColor = Color.Green;
+            else
+                buttonFind.BackColor = Color.Red;
 
             panel1.Controls.Clear();
             VisualEdges.Clear();
             CreateRedBlackTree();
             panel1.Refresh();
-        }
-
-        private void textBoxData_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelTimer_Click(object sender, EventArgs e)
-        {
         }
     }
 }

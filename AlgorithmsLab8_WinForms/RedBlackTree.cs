@@ -122,7 +122,7 @@ namespace AlgoritmsLab8
                 else if (value > current.Data)
                     current = current.RightChild;
                 else
-                    return;
+                    throw new ArgumentException("This element already exist!");
             }
 
             newNode.Parent = parent;
@@ -268,8 +268,11 @@ namespace AlgoritmsLab8
         public void Delete(int value)
         {
             var node = SearchNode(Root, value);
+
             if (node != Nil)
                 DeleteNode(node);
+            else
+                throw new ArgumentException("No such element exists!");
         }
 
         private Node SearchNode(Node node, int data)

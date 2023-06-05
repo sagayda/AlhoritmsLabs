@@ -49,20 +49,23 @@
             // labelTimer
             // 
             labelTimer.AutoSize = true;
+            labelTimer.BackColor = SystemColors.Control;
+            labelTimer.FlatStyle = FlatStyle.Flat;
             labelTimer.Location = new Point(467, 10);
             labelTimer.Name = "labelTimer";
             labelTimer.Size = new Size(0, 20);
             labelTimer.TabIndex = 2;
-            labelTimer.Click += labelTimer_Click;
             // 
             // buttonAdd
             // 
+            buttonAdd.BackColor = SystemColors.Control;
+            buttonAdd.FlatStyle = FlatStyle.Flat;
             buttonAdd.Location = new Point(125, 5);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(108, 29);
             buttonAdd.TabIndex = 3;
             buttonAdd.Text = "Add";
-            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.UseVisualStyleBackColor = false;
             buttonAdd.Click += buttonAdd_Click;
             // 
             // textBoxData
@@ -71,26 +74,29 @@
             textBoxData.Name = "textBoxData";
             textBoxData.Size = new Size(108, 27);
             textBoxData.TabIndex = 4;
-            textBoxData.TextChanged += textBoxData_TextChanged;
             // 
             // buttonRemove
             // 
+            buttonRemove.BackColor = SystemColors.Control;
+            buttonRemove.FlatStyle = FlatStyle.Flat;
             buttonRemove.Location = new Point(239, 6);
             buttonRemove.Name = "buttonRemove";
             buttonRemove.Size = new Size(108, 29);
             buttonRemove.TabIndex = 5;
             buttonRemove.Text = "Remove";
-            buttonRemove.UseVisualStyleBackColor = true;
+            buttonRemove.UseVisualStyleBackColor = false;
             buttonRemove.Click += buttonRemove_Click;
             // 
             // buttonFind
             // 
+            buttonFind.BackColor = SystemColors.Control;
+            buttonFind.FlatStyle = FlatStyle.Flat;
             buttonFind.Location = new Point(353, 6);
             buttonFind.Name = "buttonFind";
             buttonFind.Size = new Size(108, 29);
             buttonFind.TabIndex = 6;
             buttonFind.Text = "Find";
-            buttonFind.UseVisualStyleBackColor = true;
+            buttonFind.UseVisualStyleBackColor = false;
             buttonFind.Click += buttonFind_Click;
             // 
             // FormRedBlackTree

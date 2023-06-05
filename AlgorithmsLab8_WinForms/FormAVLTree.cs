@@ -9,15 +9,24 @@ namespace AlgorithmsLab8_WinForms
         private AVLTree AVLTree = new AVLTree();
 
         private List<VisualEdge> VisualEdges = new();
-        public FormAVLTree()
+        public FormAVLTree(int less, int greater, int count)
         {
             InitializeComponent();
 
             Random random = new Random();
-            for (int i = 0; i < 10; i++)
+
+            try
             {
-                int rnd = random.Next(0, 500);
-                AVLTree.Insert(rnd);
+                for (int i = 0; i < count; i++)
+                {
+                    int rnd = random.Next(less, greater);
+                    AVLTree.Insert(rnd);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to create tree!", "Error");
+                return;
             }
 
             CreateAVLTree();
@@ -34,6 +43,13 @@ namespace AlgorithmsLab8_WinForms
                 Text = AVLTree.Root.Data.ToString(),
             };
             button.FlatStyle = FlatStyle.Flat;
+
+            if (AVLTree.Root.Triggered)
+            {
+                button.FlatAppearance.BorderSize = 4;
+                button.FlatAppearance.BorderColor = Color.BlueViolet;
+            }
+
             panel1.Controls.Add(button);
 
 
@@ -79,9 +95,17 @@ namespace AlgorithmsLab8_WinForms
                 Left = x,
                 Height = 50,
                 Width = 50,
-                Text = treeNode.Data.ToString(),
+                Text = treeNode == AVLTree.Nil ? "NIL" : treeNode.Data.ToString(),
+
             };
             button.FlatStyle = FlatStyle.Flat;
+
+            if (treeNode.Triggered)
+            {
+                button.FlatAppearance.BorderSize = 4;
+                button.FlatAppearance.BorderColor = Color.BlueViolet;
+            }
+
             panel1.Controls.Add(button);
 
 
@@ -206,7 +230,16 @@ namespace AlgorithmsLab8_WinForms
 
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            AVLTree.Insert(int.Parse(textBoxData.Text));
+            try
+            {
+                AVLTree.Insert(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
@@ -222,7 +255,16 @@ namespace AlgorithmsLab8_WinForms
 
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            AVLTree.Delete(int.Parse(textBoxData.Text));
+            try
+            {
+                AVLTree.Delete(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
@@ -235,13 +277,28 @@ namespace AlgorithmsLab8_WinForms
         private void buttonFind_Click(object sender, EventArgs e)
         {
             AVLTree.ClearTriggered();
+            bool result;
 
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            AVLTree.Search(int.Parse(textBoxData.Text));
+            try
+            {
+                result = AVLTree.Search(int.Parse(textBoxData.Text));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                stopwatch.Stop();
+                buttonFind.BackColor = SystemColors.Control;
+                return;
+            }
             stopwatch.Stop();
             labelTimer.Text = stopwatch.Elapsed.TotalNanoseconds.ToString() + "ns";
 
+            if (result)
+                buttonFind.BackColor = Color.Green;
+            else
+                buttonFind.BackColor = Color.Red;
 
             panel1.Controls.Clear();
             VisualEdges.Clear();

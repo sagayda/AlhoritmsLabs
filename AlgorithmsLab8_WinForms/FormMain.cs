@@ -19,13 +19,57 @@ namespace AlgorithmsLab8_WinForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormAVLTree formAVLTree = new FormAVLTree();
+            int less;
+            int greater;
+            int count;
+
+            try
+            {
+                less = int.Parse(textBoxLess.Text);
+                greater = int.Parse(textBoxGreater.Text);
+                count = int.Parse(textBoxCount.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input!", "Error!");
+                return;
+            }
+
+            if (less > greater || count < 0)
+            {
+                MessageBox.Show("Invalid input!", "Error!");
+                return;
+            }
+
+            FormAVLTree formAVLTree = new FormAVLTree(less, greater, count);
             formAVLTree.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            FormRedBlackTree formRedBlackTree = new FormRedBlackTree();
+            int less;
+            int greater;
+            int count;
+
+            try
+            {
+                less = int.Parse(textBoxLess.Text);
+                greater = int.Parse(textBoxGreater.Text);
+                count = int.Parse(textBoxCount.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input!", "Error!");
+                return;
+            }
+
+            if (less > greater || count < 0)
+            {
+                MessageBox.Show("Invalid input!", "Error!");
+                return;
+            }
+
+            FormRedBlackTree formRedBlackTree = new FormRedBlackTree(less, greater, count);
             formRedBlackTree.Show();
         }
     }
