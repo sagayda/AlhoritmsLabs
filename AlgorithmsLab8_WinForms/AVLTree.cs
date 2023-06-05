@@ -9,17 +9,17 @@ namespace AlgoritmsLab8
 {
     public class AVLTree
     {
-        public class AVLTreeNode 
+        public class Node 
         {
             public int Data { get; set; }
 
-            public AVLTreeNode? LeftChild { get; set; }
+            public Node? LeftChild { get; set; }
 
-            public AVLTreeNode? RightChild { get; set; }
+            public Node? RightChild { get; set; }
 
-            public int NodeHeight => GetHeight();
+            public bool Triggered { get; set; } = false;
 
-            public AVLTreeNode(int data)
+            public Node(int data)
             {
                 Data = data;
 
@@ -27,17 +27,17 @@ namespace AlgoritmsLab8
                 RightChild = null;
             }
 
-            public int GetHeight()
+            public int GetHeight(Node nil)
             {
-                int leftH = LeftChild == null ? 0 : LeftChild.GetHeight();
-                int rightH = RightChild == null ? 0 : RightChild.GetHeight();
+                int leftH = LeftChild == nil ? 0 : LeftChild.GetHeight(nil);
+                int rightH = RightChild == nil ? 0 : RightChild.GetHeight(nil);
 
                 return leftH > rightH ? leftH +1 : rightH+1;
             }
 
-            public AVLTreeNode Clone()
+            public Node Clone()
             {
-                AVLTreeNode copy = new(this.Data);
+                Node copy = new(this.Data);
 
                 if (LeftChild != null)
                     copy.LeftChild = LeftChild.Clone();
@@ -77,212 +77,281 @@ namespace AlgoritmsLab8
             }
         }
 
-        public AVLTreeNode root;
+        public Node Root { get; private set; }
+
+        public Node Nil { get; private set; }
 
         public AVLTree()
         {
-            
+            Nil = new Node(default);
+            Root = Nil;
         }
 
-        public void Add(int data)
+        public void ClearTriggered()
         {
-            if(root == null)
+            if (Root == null || Root == Nil)
+                return;
+
+            if (!Root.Triggered)
+                return;
+
+            ClearTriggeredNode(Root);
+        }
+
+        private void ClearTriggeredNode(Node node)
+        {
+            if (node == Nil)
+                return;
+
+            if (!node.LeftChild.Triggered && !node.RightChild.Triggered)
             {
-                root = new(data);
+                node.Triggered = false;
                 return;
             }
 
-            RecursiveInsert(root, data);
+            if (node.LeftChild.Triggered)
+                ClearTriggeredNode(node.LeftChild);
+            else
+                ClearTriggeredNode(node.RightChild);
+
+            node.Triggered = false;
         }
 
-        private AVLTreeNode RecursiveInsert(AVLTreeNode current, int newData)
+        public void Insert(int data)
         {
-            if(current == null)
-            {
-                current = new(newData);
-                return current;
-            }
-
-            if (newData == current.Data)
-                throw new ArgumentException();
-
-            if(newData < current.Data)
-            {
-                current.LeftChild = RecursiveInsert(current.LeftChild, newData);
-                current = BalanceTree(current);
-            }
-            else if(newData > current.Data)
-            {
-                current.RightChild = RecursiveInsert(current.RightChild, newData);
-                current = BalanceTree(current);
-            }
-
-            return current;
+            Root = InsertNode(Root, data);
         }
 
-        private AVLTreeNode BalanceTree(AVLTreeNode current)
+        private Node InsertNode(Node node, int data)
         {
-            int balanceFactor = BalanceFactor(current);
-
-            if(balanceFactor < -1)
+            if (node == Nil)
             {
-                if(current.RightChild != null)
+                Node newNode = new(data);
+                newNode.RightChild = Nil;
+                newNode.LeftChild = Nil;
+
+                return newNode;
+            }
+
+            if (data < node.Data)
+            {
+                node.LeftChild = InsertNode(node.LeftChild, data);
+            }
+            else if (data > node.Data)
+            {
+                node.RightChild = InsertNode(node.RightChild, data);
+            }
+            else
+            {
+                return node;
+            }
+
+            int balanceFactor = GetBalanceFactor(node);
+            if (balanceFactor > 1 || balanceFactor < -1)
+            {
+                if (data < node.Data)
                 {
-                    if(current.RightChild.RightChild != null && current.RightChild.LeftChild != null)
+                    if (data < node.LeftChild!.Data)
                     {
-                        if(current.RightChild.RightChild.NodeHeight > current.RightChild.LeftChild.NodeHeight)
-                        {
-
-
-                            //right-left
-                            return RightLeftRotation(current);
-                        }
+                        // Лево-левый случай
+                        node = RotateRight(node);
+                    }
+                    else
+                    {
+                        // Лево-правый случай
+                        node.LeftChild = RotateLeft(node.LeftChild);
+                        node = RotateRight(node);
                     }
                 }
-
-                //left
-                return LeftRotation(current);
-            }
-            else if(balanceFactor > 1)
-            {
-                if (current.LeftChild != null)
+                else
                 {
-                    if(current.LeftChild.LeftChild != null && current.LeftChild.RightChild != null)
+                    if (data > node.RightChild!.Data)
                     {
-                        if(current.LeftChild.LeftChild.NodeHeight > current.LeftChild.RightChild.NodeHeight)
-                        {
-                            //left-right
-                            return LeftRightRotation(current);
-                        }
+                        // Право-правый случай
+                        node = RotateLeft(node);
                     }
-
+                    else
+                    {
+                        // Право-левый случай
+                        node.RightChild = RotateRight(node.RightChild);
+                        node = RotateLeft(node);
+                    }
                 }
-
-                //right
-                return RightRotation(current);
             }
 
-
-
-            //if(balanceFactor > 1)
-            //{
-            //    if (BalanceFactor(current.LeftChild) > 0)
-            //    {
-            //        current = RotateLL(current);
-            //    }
-            //    else
-            //    {
-            //        current = RotateLR(current);
-            //    }
-            //}
-            //else if(balanceFactor < -1)
-            //{
-            //    if (BalanceFactor(current.RightChild) > 0)
-            //    {
-            //        current = RotateRL(current);
-            //    }
-            //    else
-            //    {
-            //        current = RotateRR(current);
-            //    }
-            //}
-
-            return current;
-
+            return node;
         }
 
-        private int BalanceFactor(AVLTreeNode current)
+        public bool Search(int data)
         {
-            int left = current.LeftChild == null ? 0 : current.LeftChild.GetHeight();
-            int right = current.RightChild == null ? 0 : current.RightChild.GetHeight();
-            int balanceFactor = left - right;
-            return balanceFactor;
+            Root.Triggered = true;
+
+            return SearchNode(Root, data) != Nil;
         }
 
-        private AVLTreeNode LeftRotation(AVLTreeNode parent)
+        private Node SearchNode(Node node, int data)
         {
-            AVLTreeNode pivot = parent.RightChild;
-            parent.RightChild = pivot.LeftChild;
-            pivot.LeftChild = parent;
+            if (node == Nil)
+                return node;
 
-            if (root == parent)
-                root = pivot;
+            node.Triggered = true;
 
-            return parent;
+            if (node.Data == data)
+            {
+                return node;
+            }
+
+            if (data < node.Data)
+            {
+                // Рекурсивный поиск в левом поддереве
+                return SearchNode(node.LeftChild, data);
+            }
+            else
+            {
+                // Рекурсивный поиск в правом поддереве
+                return SearchNode(node.RightChild, data);
+            }
         }
 
-        private AVLTreeNode RightRotation(AVLTreeNode parent)
+        public void Delete(int data)
         {
-            AVLTreeNode pivot = parent.LeftChild;
-            parent.LeftChild = pivot.RightChild;
-            pivot.RightChild = parent;
+            Root = DeleteNode(Root, data);
+        }
 
-            if (root == parent)
-                root = pivot;
+        private Node DeleteNode(Node node, int data)
+        {
+            if (node == Nil)
+            {
+                // Узел не найден, возвращаем null
+                return null;
+            }
+
+            if (data < node.Data)
+            {
+                // Рекурсивное удаление из левого поддерева
+                node.LeftChild = DeleteNode(node.LeftChild, data);
+            }
+            else if (data > node.Data)
+            {
+                // Рекурсивное удаление из правого поддерева
+                node.RightChild = DeleteNode(node.RightChild, data);
+            }
+            else
+            {
+                // Найден узел для удаления
+
+                if (node.LeftChild == Nil && node.RightChild == Nil)
+                {
+                    // Узел является листом
+                    return null;
+                }
+                else if (node.LeftChild == Nil)
+                {
+                    // Узел имеет только правого потомка
+                    return node.RightChild;
+                }
+                else if (node.RightChild == Nil)
+                {
+                    // Узел имеет только левого потомка
+                    return node.LeftChild;
+                }
+                else
+                {
+                    // Узел имеет оба потомка
+
+                    // Находим наименьший элемент в правом поддереве
+                    Node minValueNode = FindMinValueNode(node.RightChild);
+
+                    // Заменяем значение удаляемого узла на найденное минимальное значение
+                    node.Data = minValueNode.Data;
+
+                    // Рекурсивно удаляем найденный минимальный узел из правого поддерева
+                    node.RightChild = DeleteNode(node.RightChild, minValueNode.Data);
+                }
+            }
+
+            // После удаления, выполняем повороты и обновляем высоты узлов
+            int balanceFactor = GetBalanceFactor(node);
+            if (balanceFactor > 1 || balanceFactor < -1)
+            {
+                // Нарушен баланс, выполняем повороты
+                if (data < node.Data)
+                {
+                    // Удаленный элемент находился в левом поддереве левого потомка
+                    if (data < node.LeftChild!.Data)
+                    {
+                        // Лево-левый случай
+                        node = RotateRight(node);
+                    }
+                    else
+                    {
+                        // Лево-правый случай
+                        node.LeftChild = RotateLeft(node.LeftChild);
+                        node = RotateRight(node);
+                    }
+                }
+                else
+                {
+                    // Удаленный элемент находился в правом поддереве правого потомка
+                    if (data > node.RightChild!.Data)
+                    {
+                        // Право-правый случай
+                        node = RotateLeft(node);
+                    }
+                    else
+                    {
+                        // Право-левый случай
+                        node.RightChild = RotateRight(node.RightChild);
+                        node = RotateLeft(node);
+                    }
+                }
+            }
+
+            return node;
+        }
+
+        private Node FindMinValueNode(Node node)
+        {
+            if (node.LeftChild == Nil)
+            {
+                return node;
+            }
+            else
+            {
+                return FindMinValueNode(node.LeftChild);
+            }
+        }
+
+        private int GetBalanceFactor(Node node)
+        {
+            int leftHeight = node.LeftChild == Nil ? 0 : node.LeftChild.GetHeight(Nil);
+            int rightHeight = node.RightChild == Nil ? 0 : node.RightChild.GetHeight(Nil);
+
+            return leftHeight - rightHeight;
+        }
+
+        private Node RotateLeft(Node node)
+        {
+            Node pivot = node.RightChild!;
+            node.RightChild = pivot.LeftChild;
+            pivot.LeftChild = node;
+
+            if(Root == node)
+                Root = pivot;
 
             return pivot;
         }
 
-        private AVLTreeNode LeftRightRotation(AVLTreeNode parent)
+        private Node RotateRight(Node node)
         {
-            LeftRotation(parent.LeftChild);
-            return RightRotation(parent);
+            Node pivot = node.LeftChild!;
+            node.LeftChild = pivot.RightChild;
+            pivot.RightChild = node;
+
+            if (Root == node)
+                Root = pivot;
+
+            return pivot;
         }
-
-        private AVLTreeNode RightLeftRotation(AVLTreeNode parent)
-        {
-            RightRotation(parent.RightChild);
-            return LeftRotation(parent);
-        }
-        //private AVLTreeNode RotateRR(AVLTreeNode parent)
-        //{
-        //    AVLTreeNode pivot = parent.RightChild;
-        //    parent.RightChild = pivot.LeftChild;
-        //    pivot.LeftChild = parent;
-        //    return pivot;
-        //}
-        //private AVLTreeNode RotateLL(AVLTreeNode parent)
-        //{
-        //    AVLTreeNode pivot = parent.LeftChild;
-        //    parent.LeftChild = pivot.RightChild;
-        //    pivot.RightChild = parent;
-        //    return pivot;
-        //}
-        //private AVLTreeNode RotateLR(AVLTreeNode parent)
-        //{
-        //    AVLTreeNode pivot = parent.LeftChild;
-        //    parent.LeftChild = RotateRR(pivot);
-        //    return RotateLL(parent);
-        //}
-        //private AVLTreeNode RotateRL(AVLTreeNode parent)
-        //{
-        //    AVLTreeNode pivot = parent.RightChild;
-        //    parent.RightChild = RotateLL(pivot);
-        //    return RotateRR(parent);
-        //}
-
-        private int GetMaxHeightFromNode(AVLTreeNode node)
-        {
-            if(node.RightChild == null && node.LeftChild == null) 
-            {
-                return 1;
-            }
-
-            if(node.RightChild == null)
-            {
-                return 1 + GetMaxHeightFromNode(node.LeftChild);
-            }
-
-            if(node.LeftChild == null)
-            {
-                return 1 + GetMaxHeightFromNode(node.RightChild);
-            }
-
-            int r = 1 + GetMaxHeightFromNode(node.RightChild);
-            int l = 1 + GetMaxHeightFromNode(node.LeftChild);
-
-            return r > l ? r : l;
-        }
-
     }
 }
