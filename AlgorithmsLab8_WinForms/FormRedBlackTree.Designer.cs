@@ -34,15 +34,18 @@
             textBoxData = new TextBox();
             buttonRemove = new Button();
             buttonFind = new Button();
+            panel2 = new Panel();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.AutoSize = true;
+            panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel1.BackColor = SystemColors.GradientActiveCaption;
-            panel1.Location = new Point(12, 40);
+            panel1.Location = new Point(3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(536, 488);
+            panel1.Size = new Size(0, 0);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
@@ -99,12 +102,21 @@
             buttonFind.UseVisualStyleBackColor = false;
             buttonFind.Click += buttonFind_Click;
             // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.AutoScroll = true;
+            panel2.Controls.Add(panel1);
+            panel2.Location = new Point(12, 38);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(534, 489);
+            panel2.TabIndex = 7;
+            // 
             // FormRedBlackTree
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            AutoScroll = true;
             BackColor = SystemColors.GradientActiveCaption;
             ClientSize = new Size(560, 540);
             Controls.Add(textBoxData);
@@ -112,10 +124,12 @@
             Controls.Add(buttonRemove);
             Controls.Add(buttonAdd);
             Controls.Add(labelTimer);
-            Controls.Add(panel1);
+            Controls.Add(panel2);
             MinimumSize = new Size(578, 587);
             Name = "FormRedBlackTree";
             Text = "FormRedBlackTree";
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -128,5 +142,6 @@
         private TextBox textBoxData;
         private Button buttonRemove;
         private Button buttonFind;
+        private Panel panel2;
     }
 }

@@ -6,6 +6,8 @@ namespace AlgorithmsLab8_WinForms
 {
     public partial class FormRedBlackTree : Form
     {
+        private readonly Font font = new("Segoe UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+
         private RedBlackTree RedBlackTree = new();
 
         private List<VisualEdge> VisualEdges = new();
@@ -41,6 +43,7 @@ namespace AlgorithmsLab8_WinForms
                 Height = 50,
                 Width = 50,
                 Text = RedBlackTree.Root.Data.ToString(),
+                Font = font,
                 BackColor = RedBlackTree.Root.Color == RedBlackTree.Color.Red ? Color.Red : Color.Black,
                 ForeColor = RedBlackTree.Root.Color == RedBlackTree.Color.Red ? Color.Black : Color.White,
             };
@@ -91,6 +94,7 @@ namespace AlgorithmsLab8_WinForms
                 Left = x,
                 Height = 50,
                 Width = 50,
+                Font = font,
                 Text = treeNode == RedBlackTree.Nil ? "NIL" : treeNode.Data.ToString(),
                 BackColor = treeNode.GetColor(),
                 ForeColor = treeNode.GetColor() == Color.Red ? Color.Black : Color.White,

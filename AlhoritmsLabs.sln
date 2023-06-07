@@ -23,9 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmsLab6_WinForms", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgoritmsLab8", "AlgoritmsLab8\AlgoritmsLab8.csproj", "{4F92943C-61CA-429E-80F0-3227FAB5DAB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab8Test", "Lab8Test\Lab8Test.csproj", "{4A6D08E5-4CF8-4986-8E45-C3495CF41AF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab8Test", "Lab8Test\Lab8Test.csproj", "{4A6D08E5-4CF8-4986-8E45-C3495CF41AF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmsLab8_WinForms", "AlgorithmsLab8_WinForms\AlgorithmsLab8_WinForms.csproj", "{13D0607D-68CA-4CDB-8F35-1934A066715E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmsLab8_WinForms", "AlgorithmsLab8_WinForms\AlgorithmsLab8_WinForms.csproj", "{13D0607D-68CA-4CDB-8F35-1934A066715E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmsLab10_WinForms", "AlgorithmsLab10_WinForms\AlgorithmsLab10_WinForms.csproj", "{A2511F8D-1FB4-4E14-8362-F8E42FDF55F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{13D0607D-68CA-4CDB-8F35-1934A066715E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13D0607D-68CA-4CDB-8F35-1934A066715E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13D0607D-68CA-4CDB-8F35-1934A066715E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2511F8D-1FB4-4E14-8362-F8E42FDF55F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2511F8D-1FB4-4E14-8362-F8E42FDF55F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2511F8D-1FB4-4E14-8362-F8E42FDF55F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2511F8D-1FB4-4E14-8362-F8E42FDF55F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

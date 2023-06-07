@@ -6,6 +6,8 @@ namespace AlgorithmsLab8_WinForms
 {
     public partial class FormAVLTree : Form
     {
+        private readonly Font font = new("Segoe UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+
         private AVLTree AVLTree = new AVLTree();
 
         private List<VisualEdge> VisualEdges = new();
@@ -40,6 +42,7 @@ namespace AlgorithmsLab8_WinForms
                 Left = 250,
                 Height = 50,
                 Width = 50,
+                Font = font,
                 Text = AVLTree.Root.Data.ToString(),
             };
             button.FlatStyle = FlatStyle.Flat;
@@ -95,6 +98,7 @@ namespace AlgorithmsLab8_WinForms
                 Left = x,
                 Height = 50,
                 Width = 50,
+                Font = font,
                 Text = treeNode == AVLTree.Nil ? "NIL" : treeNode.Data.ToString(),
 
             };

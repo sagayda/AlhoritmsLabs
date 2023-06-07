@@ -34,15 +34,18 @@
             buttonRemove = new Button();
             buttonAdd = new Button();
             labelTimer = new Label();
+            panel2 = new Panel();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.AutoSize = true;
+            panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel1.BackColor = SystemColors.GradientActiveCaption;
-            panel1.Location = new Point(12, 39);
+            panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(531, 488);
+            panel1.Size = new Size(0, 0);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -99,6 +102,16 @@
             labelTimer.Size = new Size(0, 20);
             labelTimer.TabIndex = 7;
             // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.AutoScroll = true;
+            panel2.Controls.Add(panel1);
+            panel2.Location = new Point(12, 42);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(534, 482);
+            panel2.TabIndex = 12;
+            // 
             // FormAVLTree
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -111,10 +124,12 @@
             Controls.Add(buttonRemove);
             Controls.Add(buttonAdd);
             Controls.Add(labelTimer);
-            Controls.Add(panel1);
+            Controls.Add(panel2);
             MinimumSize = new Size(576, 583);
             Name = "FormAVLTree";
             Text = "FormAVLTree";
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,5 +142,6 @@
         private Button buttonRemove;
         private Button buttonAdd;
         private Label labelTimer;
+        private Panel panel2;
     }
 }
