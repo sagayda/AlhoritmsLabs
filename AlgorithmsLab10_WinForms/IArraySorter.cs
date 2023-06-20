@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace AlgorithmsLab10_WinForms
 {
-    public interface ISorter
+    public interface IArraySorter
     {
-        public void Sort(List<int> list);
+        public void Sort(int[] data);
+    }
+
+    public interface IListSorter
+    {
+        public void Sort(List<int> data);
     }
 }

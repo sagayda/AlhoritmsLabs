@@ -40,9 +40,14 @@
             labelTime = new Label();
             checkBoxOptimize = new CheckBox();
             numericTimesToSort = new NumericUpDown();
+            checkBoxUseList = new CheckBox();
+            checkedListBoxFleet = new CheckedListBox();
+            panel1 = new Panel();
+            buttonFleetsUnit = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFleet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSortedFleet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericTimesToSort).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridViewFleet
@@ -135,7 +140,7 @@
             // 
             comboBoxSortingAlgoritm.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxSortingAlgoritm.FormattingEnabled = true;
-            comboBoxSortingAlgoritm.Items.AddRange(new object[] { "QuickSort", "QuickSort (repeats)", "QuickSort (particaly sort)", "Heapsort", "Smooth sort" });
+            comboBoxSortingAlgoritm.Items.AddRange(new object[] { "QuickSort", "QuickSort (repeats)", "QuickSort (particaly sort)", "Heapsort", "Smooth sort", "Cocktail sort", "Insertion sort", "QuickSort (All)" });
             comboBoxSortingAlgoritm.Location = new Point(391, 260);
             comboBoxSortingAlgoritm.Name = "comboBoxSortingAlgoritm";
             comboBoxSortingAlgoritm.Size = new Size(219, 28);
@@ -171,11 +176,52 @@
             numericTimesToSort.TabIndex = 10;
             numericTimesToSort.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
+            // checkBoxUseList
+            // 
+            checkBoxUseList.AutoSize = true;
+            checkBoxUseList.Location = new Point(882, 15);
+            checkBoxUseList.Name = "checkBoxUseList";
+            checkBoxUseList.Size = new Size(118, 24);
+            checkBoxUseList.TabIndex = 11;
+            checkBoxUseList.Text = "Use List<int>";
+            checkBoxUseList.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBoxFleet
+            // 
+            checkedListBoxFleet.CheckOnClick = true;
+            checkedListBoxFleet.Dock = DockStyle.Fill;
+            checkedListBoxFleet.FormattingEnabled = true;
+            checkedListBoxFleet.Location = new Point(0, 0);
+            checkedListBoxFleet.Name = "checkedListBoxFleet";
+            checkedListBoxFleet.Size = new Size(325, 346);
+            checkedListBoxFleet.TabIndex = 12;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(checkedListBoxFleet);
+            panel1.Location = new Point(1031, 58);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(325, 346);
+            panel1.TabIndex = 13;
+            // 
+            // buttonFleetsUnit
+            // 
+            buttonFleetsUnit.Location = new Point(1103, 430);
+            buttonFleetsUnit.Name = "buttonFleetsUnit";
+            buttonFleetsUnit.Size = new Size(190, 29);
+            buttonFleetsUnit.TabIndex = 14;
+            buttonFleetsUnit.Text = "Unit selected fleets";
+            buttonFleetsUnit.UseVisualStyleBackColor = true;
+            buttonFleetsUnit.Click += buttonFleetsUnit_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1017, 551);
+            ClientSize = new Size(1389, 551);
+            Controls.Add(buttonFleetsUnit);
+            Controls.Add(panel1);
+            Controls.Add(checkBoxUseList);
             Controls.Add(numericTimesToSort);
             Controls.Add(checkBoxOptimize);
             Controls.Add(labelTime);
@@ -192,6 +238,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewFleet).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSortedFleet).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericTimesToSort).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -210,5 +257,9 @@
         private NumericUpDown numericTimesToSort;
         private DataGridViewTextBoxColumn crewSize;
         private DataGridViewTextBoxColumn crewSizeSorted;
+        private CheckBox checkBoxUseList;
+        private CheckedListBox checkedListBoxFleet;
+        private Panel panel1;
+        private Button buttonFleetsUnit;
     }
 }

@@ -21,7 +21,7 @@ namespace AlgorithmsLab10_WinForms
             InitializeComponent();
         }
 
-        private List<int> CreateFleet(int shipsCount, int floor, int ceil, double uniqueness, double sortingFactor)
+        private int[] CreateFleet(int shipsCount, int floor, int ceil, double uniqueness, double sortingFactor)
         {
             Random rnd = new Random();
 
@@ -67,7 +67,7 @@ namespace AlgorithmsLab10_WinForms
             int desortedCount = (int)Math.Floor(result.Count / 100f * (100f - sortingFactor));
 
             if (desortedCount >= 100)
-                return result;
+                return result.ToArray();
 
             result.Sort();
 
@@ -79,13 +79,15 @@ namespace AlgorithmsLab10_WinForms
                 (result[secondIndx], result[firstIndx]) = (result[firstIndx], result[secondIndx]);
             }
 
-            return result;
+            return result.ToArray();
         }
 
         private void buttonCreateMultiple_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < numericFleetsCount.Value; i++)
             {
+                formMain.FleetsCount++;
+
                 try
                 {
                     var fleet = CreateFleet((int)numericShipsCount.Value,
@@ -94,7 +96,14 @@ namespace AlgorithmsLab10_WinForms
                         (double)numericUniqueness.Value,
                         (double)numericSortingFactor.Value);
 
-                    formMain.FleetsList.Add($"Fleet №{formMain.FleetsList.Count + 1} ({fleet.Count}) - {textBoxName.Text}", fleet);
+                    int fleetNumber = formMain.FleetsCount;
+
+                    while(formMain.FleetsList.ContainsKey($"Fleet №{fleetNumber} ({fleet.Length}) - {textBoxName.Text}"))
+                    {
+                        fleetNumber++;
+                    }
+
+                    formMain.FleetsList.Add($"Fleet №{fleetNumber} ({fleet.Length}) - {textBoxName.Text}", fleet);
                 }
                 catch (Exception ex)
                 {
